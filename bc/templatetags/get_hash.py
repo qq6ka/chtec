@@ -1,0 +1,1 @@
+import jsonfrom django import templateregister = template.Library()def redis_hash(value):	return json.loads(value)		register.filter('redis_hash', redis_hash)

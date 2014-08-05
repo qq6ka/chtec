@@ -1,0 +1,26 @@
+{% extends "base.html" %} 
+
+
+{% block mainblock %}
+<script type="text/javascript">
+function getC(str)
+{
+	var a=str.firstChild.data;
+  document.getElementById('id_param').value = str.firstChild.data;
+  document.getElementById('id_value').value = document.getElementById(a).innerHTML;
+}
+</script>
+
+	{% for key, value in result.items %}
+		(<a href='?del={{key}}'>x</a>) <a href="javascript:void(0)" onclick="getC(this)">{{key}}</a> => <span id={{key}}>{{value}}</span> <br>
+	{% endfor %}
+	<hr>
+
+		<h1>Добавить или изменить поле</h1>
+        <form action="" method="post">
+            <p><input type=text name=field_name id=id_param>
+            <p><input type=text name=field_value id=id_value>
+            <p><input type=submit value=Ok>
+        </form>
+		
+		{% endblock %}

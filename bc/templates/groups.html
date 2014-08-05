@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load get_id %}
+
+{% block mainblock %}
+
+    <h1>{{ tag.name }}</h1>
+    <form name="test" method="post">
+    {% for group in groups %}
+
+        {% if group|mongo_id in tag.groups %}
+            <input type="checkbox" checked=True name="{{ group|mongo_id }}" value=''>{{ group.name }}<br>
+        {% else %}
+            <input type="checkbox" name="{{ group|mongo_id }}">{{ group.name }}<br>
+        {% endif %}
+    {% endfor %}
+    <input type="submit" value="Отправить">
+    </form>
+
+{% endblock %}

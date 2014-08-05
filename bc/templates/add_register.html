@@ -1,0 +1,186 @@
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<Script Language=JavaScript>
+function send_kind(val)
+{
+ document.forms["add_node"].elements["newkind"].value = val;
+ document.forms["add_node"].submit();
+}
+
+function send_parent(val)
+{
+ document.forms["add_node"].elements["newparent"].value = val;
+ document.forms["add_node"].submit();
+}
+function goToPage(backurl)
+    {
+    document.location.href = backurl;
+    }
+
+function do_equally()
+    {
+    if ((document.forms["add_node"].elements["repair"].value > 0) && (document.forms["add_node"].elements["working"].value > 0))
+        {
+        alert('Нельзя одновременно делить по месяцам и эксплуатацию и ремонт.Оставьте что нибудь одно.');
+        return
+        }
+    if ((document.forms["add_node"].elements["repair"].value == 0) && (document.forms["add_node"].elements["working"].value == 0))
+        {
+        alert('Эксплуатация и ремонт = 0. Исправьте ситуацию! ');
+        return
+        }
+    if (document.forms["add_node"].elements["working"].value > 0)
+        {
+        var cnt_months = 0;
+        for (var i = 1; i < 13; i++)
+           {
+           if (document.forms["add_node"].elements["m"+String(i)+"_on"].checked == true)
+               {
+               cnt_months += 1;
+               }
+           }
+        for (var i = 1; i < 13; i++)
+           {
+           if (document.forms["add_node"].elements["m"+String(i)+"_on"].checked == true)
+               {
+               document.forms["add_node"].elements["m"+String(i)+"_val"].value = document.forms["add_node"].elements["working"].value/cnt_months;
+               }
+           }
+        }
+    if (document.forms["add_node"].elements["repair"].value > 0)
+        {
+        var cnt_months = 0;
+        for (var i = 1; i < 13; i++)
+           {
+           if (document.forms["add_node"].elements["m"+String(i)+"_on"].checked == true)
+               {
+               cnt_months += 1;
+               }
+           }
+        for (var i = 1; i < 13; i++)
+           {
+           if (document.forms["add_node"].elements["m"+String(i)+"_on"].checked == true)
+               {
+               document.forms["add_node"].elements["m"+String(i)+"_val"].value = document.forms["add_node"].elements["repair"].value/cnt_months;
+               }
+           }
+        }
+
+    }
+
+function do_on_all()
+    {
+    if (document.forms["add_node"].elements["on_all"].value == "Включить все")
+        {
+        document.forms["add_node"].elements["on_all"].value = "Выключить все";
+        y_o_n = true;
+        }
+    else
+        {
+        document.forms["add_node"].elements["on_all"].value = "Включить все";
+        y_o_n = false;
+        }
+        for (var i = 1; i < 13; i++)
+           {
+           document.forms["add_node"].elements["m"+String(i)+"_on"].checked = y_o_n;
+           }
+    }
+
+function do_entire()
+    {
+    if ((document.forms["add_node"].elements["repair"].value > 0) && (document.forms["add_node"].elements["working"].value > 0))
+        {
+        alert('Нельзя одновременно делить по месяцам и эксплуатацию и ремонт.Оставьте что нибудь одно.');
+        return
+        }
+    if ((document.forms["add_node"].elements["repair"].value == 0) && (document.forms["add_node"].elements["working"].value == 0))
+        {
+        alert('Эксплуатация и ремонт = 0. Исправьте ситуацию! ');
+        return
+        }
+    var cnt_months = 0;
+    for (var i = 1; i < 13; i++)
+       {
+       document.forms["add_node"].elements["m"+String(i)+"_val"].value = 0;
+       if (document.forms["add_node"].elements["m"+String(i)+"_on"].checked == true)
+           {
+           cnt_months += 1;
+           }
+       }
+    if (document.forms["add_node"].elements["working"].value > 0)
+        {
+            var vmnt = document.forms["add_node"].elements["working"].value;
+            var cmnt = cnt_months;
+            for (var i = 1; i < 13; i++)
+               {
+               if (document.forms["add_node"].elements["m"+String(i)+"_on"].checked == true)
+                   {
+                   if (cmnt == 1)
+                       {
+                       document.forms["add_node"].elements["m"+String(i)+"_val"].value = vmnt;
+                       break;
+                       return;
+                       }
+                   document.forms["add_node"].elements["m"+String(i)+"_val"].value = Math.round(vmnt/cmnt);
+                   vmnt = vmnt-Math.round(vmnt/cmnt);
+                   cmnt -= 1
+                   }
+               }
+        }
+    if (document.forms["add_node"].elements["repair"].value > 0)
+        {
+            var vmnt = document.forms["add_node"].elements["repair"].value;
+            var cmnt = cnt_months;
+            for (var i = 1; i < 13; i++)
+               {
+               if (document.forms["add_node"].elements["m"+String(i)+"_on"].checked == true)
+                   {
+                   if (cmnt == 1)
+                       {
+                       document.forms["add_node"].elements["m"+String(i)+"_val"].value = vmnt;
+                       break;
+                       }
+                   document.forms["add_node"].elements["m"+String(i)+"_val"].value = Math.round(vmnt/cmnt);
+                   vmnt = vmnt-Math.round(vmnt/cmnt);
+                   cmnt -= 1
+                   }
+               }
+        }
+    }
+
+</script>
+<link rel="stylesheet" type="text/css" href="/supplier/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/supplier/static/admin/css/forms.css" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/supplier/static/admin/css/ie.css" /><![endif]-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/supplier/static/admin/";</script>
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/supplier/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/supplier/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/supplier/static/admin/js/jquery.min.js"></script>
+<script type="text/javascript" src="/supplier/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/supplier/static/admin/js/actions.min.js"></script>
+<script type="text/javascript" src="/supplier/static/admin/js/calendar.js"></script>
+<script type="text/javascript" src="/supplier/static/admin/js/admin/DateTimeShortcuts.js"></script>
+
+</head>
+<body>
+<form name="add_node" method="POST">{% csrf_token %}
+<table>
+    {% for data in datas %}
+      <tr>
+      <td> <input type="button" onclick="send_parent({{ data.id }})" name={{ data.id }} value={{ data.name }}></td>
+      </tr>
+    {% endfor %}
+    {{ form }}
+    <br><br>
+    <input type="hidden" name="newparent" value="" />
+    <input type="hidden" name="newkind" value="" />
+    <input type="submit" name="save" value="Запомнить">
+    <input type="button" onclick="goToPage('{{ backurl }}')" name="cancel" value="отменить">
+    <input type="button" onclick="do_equally()" name="equally" value="Поровну">
+    <input type="button" onclick="do_entire()" name="entire" value="Нацело">
+    <input type="button" onclick="do_on_all()" name="on_all" value="Включить все">
+</table>
+</form>
+</body>

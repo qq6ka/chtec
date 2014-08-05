@@ -1,0 +1,93 @@
+{% load staticfiles %}
+<script src="{% static 'jquery-1.10.2.min.js' %}"></script>
+
+
+<script type="text/javascript">
+	$(function(){
+		$('#svg').load('/static/boilern.svg').html();
+	});
+</script>
+
+<script type="text/javascript">
+$(function () {
+  setInterval(function () {
+    $('#0').load('/get_tag_by_shortname/?tag='+encodeURIComponent("ТГ 1-6 сумм. ам"));
+    $('#1').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-5 Q подающ. калориф."));
+    $('#2').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-1 Q подающ. трубопр."));
+    $('#3').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-1 Т подающ. трубопр."));
+    $('#4').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-1 Т за ОБ-1"));
+    $('#5').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-1 Т обрат. трубопр."));
+    $('#6').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-2 Q подающ."));
+    $('#7').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-2 Т подающ. трубопр."));
+    $('#8').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-2 Т за ОБ-2"));
+    $('#9').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-2 Т обрат. трубопр."));
+    $('#10').load('/get_tag_by_shortname/?tag='+encodeURIComponent("КСК ГЩУ Q трубопр ХО подп КСК"));
+    $('#11').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-3 Q подающ трубопр"));
+    $('#12').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-3 Т за обводом подающ трубопр"));
+    $('#13').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-4 Q подающ. трубопр."));
+    $('#14').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-4 Т подающ. трубопр."));
+    $('#15').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-4 Т обрат. трубопр"));
+    $('#16').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-5 Q подающ."));
+    $('#17').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-5 Т подающ. трубопр."));
+    $('#18').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-6 Т подающ. трубопр."));
+    $('#19').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-6 Q подающ. трубопр."));
+    $('#20').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-4 Т за ОБ-4"));
+    $('#21').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-5 Т за ОБ-5"));
+    $('#22').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-6 Т за ОБ-6"));
+    $('#23').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-5 Т обрат. трубопр."));
+    $('#24').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-6 Т обрат. трубопр."));
+    $('#25').load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Q прям. 1000"));
+    $('#26').load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Т прям. 1000"));
+    $('#27').load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Р прям. 1000"));
+    $('#28').load('/get_tag_by_shortname/?tag='+encodeURIComponent("КСК ГЩУ Р подающ. трубопр."));
+    $('#29').load('/get_tag_by_shortname/?tag='+encodeURIComponent("КСК ГЩУ Т подающ. трубопр."));
+    $('#30').load('/get_tag_by_shortname/?tag='+encodeURIComponent("КСК ГЩУ Q подающ. трубопр."));
+    $('#31').load('/get_tag_by_shortname/?tag='+encodeURIComponent("КСК ГЩУ Р обрат. трубопр."));
+    $('#32').load('/get_tag_by_shortname/?tag='+encodeURIComponent("КСК ГЩУ Т обрат. трубопр."));
+    $('#33').load('/get_tag_by_shortname/?tag='+encodeURIComponent("КСК ГЩУ Q обрат. трубопр."));
+    $('#34').load('/get_tag_by_shortname/?tag='+encodeURIComponent("НАПТС-3 Q 1 оч. "));
+    $('#35').load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Р прям. 800"));
+    $('#36').load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Т прям. 800"));
+    $('#37').load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Q прям. 800"));
+    $('#38').load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Р обрат. 800"));
+    $('#39').load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Т обрат. 800"));
+    $('#40').load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Q обрат. 800"));
+    $('#41').load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Р обрат. 1000"));
+    $('#42').load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Т обрат. 1000"));
+    $('#43').load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Q обрат. 1000"));
+    $('#44').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-4 Q подп. ХОВ"));
+    $('#45').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-2 Т подводов ХОВ к деаэр"));
+    $('#46').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-3 Т обрат. трубопр."));
+    $('#47').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-1 W по магистр."));
+    $('#48').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-2 W по магистр."));
+    $('#49').load('/get_tag_by_shortname/?tag='+encodeURIComponent("КСК ГЩУ W по магистр."));
+    $('#50').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-3 W по магистр."));
+    $('#51').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-4 W по магистр."));
+    $('#52').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-5 W по магистр."));
+    $('#53').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-6 W по магистр."));
+    $('#54').load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ W по магистр. 1000"));
+    $('#55').load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ W по магистр. 800"));
+    $('#56').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-4 Q трубопр. отопл."));
+    $('#57').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-5 Q подающ. отопл."));
+    $('#58').load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-1 Q прям. на отопл."));
+    $('#59').load('/get_tag_by_shortname/?tag='+encodeURIComponent("ПСГ W по магистр св"));
+    $('#60').load('/get_tag_by_shortname/?tag='+encodeURIComponent("АПТС Q 2 оч."));
+    $('#61').load('/get_tag_by_shortname/?tag='+encodeURIComponent("ПСГ Q св прямой трубопр"));
+    $('#62').load('/get_tag_by_shortname/?tag='+encodeURIComponent("ПСГ Т св обрат трубопр"));
+    $('#63').load('/get_tag_by_shortname/?tag='+encodeURIComponent("ПСГ Р св обрат трубопр"));
+    $('#64').load('/get_tag_by_shortname/?tag='+encodeURIComponent("ПСГ Т св прямой трубопр"));
+    $('#65').load('/get_tag_by_shortname/?tag='+encodeURIComponent("ПСГ Р св прямой трубопр"));
+
+  }, 4000);
+});
+</script>
+
+<script type="text/javascript">
+$(function () {
+  setInterval(function () {
+		location.reload(true);
+  }, 600000);
+});
+
+</script>
+<span id="svg"></span>

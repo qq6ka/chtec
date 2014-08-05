@@ -1,0 +1,89 @@
+{% extends "base4arms.html" %}
+{% load get_redis %}
+
+{% block mainblock %}
+
+<h1>Состояние автоматов питания защит котлоагрегатов</h1>
+<table width="100%" class="main_ka" style="border-collapse: collapse;" cellpadding="5" cellspacing="0">
+<tr align="center">
+<td width="4.7%">КА-2 Уровень</td>
+<td width="4.7%">КА-2 Сброс</td>
+<td width="4.7%">КА-2 t` аэросмеси</td>
+<td width="4.7%">КА-2 t` пара</td>
+<td width="4.7%">КА-2 Факел</td>
+<td width="4.7%">КА-2 ИЦ</td>
+<td width="4.7%">КА-3 Уровень</td>
+<td width="4.7%">КА-3 Сброс</td>
+<td width="4.7%">КА-3 t` аэросмеси</td>
+<td width="4.7%">КА-3 t` пара</td>
+<td width="4.7%">КА-3 ИЦ</td>
+<td width="4.7%">КА-4</td>
+<td width="4.7%">КА-5</td>
+<td width="4.7%">КА-6</td>
+<td width="4.7%">КА-7</td>
+<td width="4.7%">КА-8</td>
+<td width="4.7%">КА-9</td>
+<td width="4.7%">КА-10</td>
+<td width="4.7%">КА-11</td>
+<td width="4.7%">КА-12</td>
+<td width="4.7%">КА-13</td>
+</tr>
+<tr height="40">
+<td width="4.7%" {% with tag_value="КА-2 1АВ H в барабане"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-2 4АВ Сброс нагрузки"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-2 5АВ Т аэросмеси"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-2 6АВ Т пп"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-2 7АВ Факел"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-2 8АВ Исполнит. цепи"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-3 1АВ H в барабане"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-3 4АВ Сброс нагрузки"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-3 5АВ Т аэросмеси"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-3 6АВ Т пп"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-3 8АВ Исполнит. цепи"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-4 пит. технол. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-5 пит. технол. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-6 пит. технол. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-7 пит. технол. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-8 пит. тех. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-9 пит. тех. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-10 пит. тех. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-11 пит. тех. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-12 пит. тех. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="КА-13 пит. тех. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+</tr>
+</table>
+<br><br><br><br>
+<h1>Состояние автоматов питания защит турбогенераторов</h1>
+<table width="100%" class="main_ka" style="border-collapse: collapse;" cellpadding="5" cellspacing="0">
+<tr align="center">
+<td width="8.3%">ТГ-1</td>
+<td width="8.3%">ТГ-1 ИЦ</td>
+<td width="8.3%">ТГ-2</td>
+<td width="8.3%">ТГ-2 ИЦ</td>
+<td width="8.3%">ТГ-3</td>
+<td width="8.3%">ТГ-3 ИЦ</td>
+<td width="8.3%">ТГ-4</td>
+<td width="8.3%">ТГ-4 ИЦ</td>
+<td width="8.3%">ТГ-5</td>
+<td width="8.3%">ТГ-5 ИЦ</td>
+<td width="8.3%">ТГ-6</td>
+<td width="8.3%">ТГ-6 ИЦ</td>
+</tr>
+<tr height="40">
+<td width="4.7%" {% with tag_value="ТГ-1 1АВ Технол. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="ТГ-1 2АВ Исполнит. цепи"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="ТГ-2 1АВ Технол. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="ТГ-2 2АВ Исполнит. цепи"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="ТГ-3 пит. технол. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="ТГ-3 пит. исполнит. цепей технол. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="ТГ-4 пит. технол. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="ТГ-4 пит. исполнит. цепей технол. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="ТГ-5 пит. тех. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="ТГ-5 пит. исп. цеп. тех. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="ТГ-6 пит. тех. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+<td width="4.7%" {% with tag_value="ТГ-6 пит. исп. цеп. тех. защит"|GetRedisVal %}{% if tag_value.value == "1" %}class="red"{% elif tag_value.value == "0" %}class="green"{% endif %}{% endwith %}>&nbsp;</td>
+</tr>
+</table>
+
+
+{% endblock %}

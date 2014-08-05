@@ -1,0 +1,80 @@
+{% load date_from_ts %}
+
+
+
+
+
+
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+<script src="{% static 'jqueryui.custom.js' %}"></script>
+<link rel="stylesheet" href="{% static 'jqueryui.custom.css' %}"></link>
+
+
+
+  <style>
+    ul {list-style-type:none; margin:0; padding:0; margin-bottom:10px;}
+    li {margin:5px; padding:5px; width:150px;}
+    #sortable{float:left; border:1px solid #eee; position:absolute; top:70px; left:160px}
+  </style>
+</head>
+<body>
+
+  <ul id="sortable">
+    <li class="ui-state-default">Элемент 1</li>
+    <li class="ui-state-default">Элемент 2</li>
+    <li class="ui-state-default">Элемент 3</li>
+    <li class="ui-state-default">Элемент 4</li>
+    <li class="ui-state-default">Элемент 5</li>
+  </ul>
+
+  <script>
+    $("#sortable").sortable({ revert:true });
+    $("#draggable").draggable({
+      connectToSortable:"#sortable",
+      helper: "clone",
+      revert:"invalid"
+    });
+
+    // отменим возможность выделять текст внутри элементов
+    $( "ul, li" ).disableSelection();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table border="1" width="100%"><tr>
+{% for key, value in groups_load_tags.items %}
+    <td colspan="2">
+    <h1>{{ key }}</h1>
+
+    <table width="100%">
+    {% for key, value in value.items %}
+            <tr><td>
+            {% if value.status == '0'  %}
+                    <span id=normal class="hint--bottom hint--rounded" data-hint='Состояние {{ value.state }}, Время {{ value.time|ts2date|date:"d.m.Y в H:i:s" }}'>
+            {% elif value.status == '1' %}
+                    <span id=attention class="hint--bottom hint--rounded" data-hint='Состояние {{ value.state }}, Время {{ value.time|ts2date|date:"d.m.Y в H:i:s" }}'>
+            {% else %}
+                    <span id=panic class="hint--bottom hint--rounded" data-hint='Состояние {{ value.state }}, Время {{ value.time|ts2date|date:"d.m.Y в H:i:s" }}'>
+            {% endif %}
+            {{ value.name }}</td><td>{% if value.value == 'Error' %}{{ value.value }}{% else %}{{ value.value|floatformat:5 }}{% endif %}</span></td><tr>
+    {% endfor %}
+    </table>
+    </td>
+    {% if forloop.counter|divisibleby:"3" %}
+        </tr><tr>
+    {% endif %}
+
+{% endfor %}
+</table>

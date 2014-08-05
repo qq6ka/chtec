@@ -1,0 +1,12 @@
+{% extends "base.html" %} 
+{% load get_id %}
+{% load get_tree %}
+
+{% block mainblock %}
+<h1>{{ current_bus.name }}</h1>
+<a href="/add/{{ current_bus|mongo_id }}"><img src="/static/icons/add_.png"></a> <a href="?del={{ current_bus|mongo_id }}"><img src="/static/icons/del_.png"></a> <a href="/edit/{{ current_bus|mongo_id }}" target="blank"><img src="/static/icons/edit_.png"></a><hr>
+<div class='comment'>{% for key, value in current_bus.items%}<u>{{ key }}</u> => {{ value }}, {% endfor %}</div>
+
+{% children_tag current_bus|mongo_id %}
+
+{% endblock %}

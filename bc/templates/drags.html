@@ -1,0 +1,250 @@
+{% load staticfiles %}
+{% load get_id %}
+<script src="{% static 'jquery-1.10.2.min.js' %}"></script>
+<script src="{% static 'moment.min.js' %}"></script>
+<script src="{% static 'charts/amcharts/amcharts.js' %}"></script>
+<script src="{% static 'charts/amcharts/serial.js' %}"></script>
+<script src="{% static 'charts/amcharts/themes/dark.js' %}"></script>
+<script src="{% static 'jquery_chained-master/jquery.chained.min.js' %}"></script>
+<script src="{% static 'charts/amcharts/exporting/amexport.js' %}"></script>
+<script src="{% static 'charts/amcharts/exporting/rgbcolor.js' %}"></script>
+<script src="{% static 'charts/amcharts/exporting/canvg.js' %}"></script>
+<script src="{% static 'charts/amcharts/exporting/filesaver.js' %}"></script>
+<script src="{% static 'charts/amcharts/exporting/jspdf.js' %}"></script>
+<script src="{% static 'charts/amcharts/exporting/jspdf.plugin.addimage.js' %}"></script>
+
+{#  Для календарика  #}
+    <script src="{% static 'dp/jsDatePick.min.1.3.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'dp/jsDatePick_ltr.min.css' %}">
+
+<style>
+	#chartdiv {
+		width	: 100%;
+		height	: 500px;
+	}	
+</style>
+
+
+<script type="text/javascript">
+	window.onload = function(){
+		new JsDatePick({
+			useMode:2,
+			target:"inputFieldStart",
+			dateFormat:"%d-%m-%Y"
+		});
+
+        new JsDatePick({
+            useMode:2,
+            target:"inputFieldEnd",
+            dateFormat:"%d-%m-%Y"
+        });
+	};
+</script>
+
+<form>
+	Выбор тега: 
+	<input placeholder="дд-мм-гггг" type="text" id="inputFieldStart" name="start_date" value="" />  по <input placeholder="дд-мм-гггг" type="text" id="inputFieldEnd" name="end_date" value="" /> 
+	<select id="bus" name="bus">
+	  <option value="">Выберите шину</option>
+	  {% for bus in buses %}<option value="{{ bus|mongo_id }}">{{ bus.name }}</option>{% endfor %}
+	</select>
+	<select id="device" name="device">
+	  <option value="">Выберите устройство</option>
+	  {% for device in devices %}<option value="{{ device|mongo_id }}" class="{{ device.parent }}">{{ device.name }}</option>{% endfor %}
+	</select>
+	<select id="tag" name="tag">
+	  <option value="">Выберите тэг</option>
+	  {% for tag in tags %}<option value="{{ tag|mongo_id }}" class="{{ tag.parent }}">{{ tag.name }}</option>{% endfor %}
+	</select>
+	<input type="checkbox" id="autoupdate" name="autoupdate"> Автообновление
+	<a href="/drags/{{ tagid }}">Сброс полей</a>
+</form>
+Ошибки: <a href="#" id="errors_hide">скрыть</a>, <a href="#" id="errors_show">показать</a><br><br>
+
+<script type="text/javascript">
+	$(window).load(function(){
+		var reload_data;
+        function load_data(url, tagname, start_date, end_date){
+        	$("#chartdiv").empty().append("Ждите, идет загрузка данных и построение графика");
+        	$("#values_tbl").empty()
+            var chartData = $.getJSON("/current_values_for_graph/"+url+"?start_date="+start_date+"&end_date="+end_date)
+            .done(function(json) {
+                  get_data_ok(json, tagname, url);
+            })
+            .fail(function(json) {
+                  get_data_fail();
+            });
+        }
+
+        // Первая загрузка страницы, отправляем ID тэга и его имя и пустые даты
+        load_data("{{ tagid }}", "{{ tag.name }}", "", "");
+
+        // Данные не загрузились
+        function get_data_fail(data){
+        	$("#chartdiv").empty().append("Ошибка загрузки данных. Попробуйте позже.");
+        	$("#values_tbl").empty()
+        }
+
+        // Данные загружены
+		function get_data_ok(data, tagname, tagid){
+			// Строим график
+			var chartData = data.vals_and_times;
+			var chartErrors = data.errors;
+
+			var chart = new AmCharts.AmSerialChart();
+			var graph = new AmCharts.AmGraph();
+			var categoryAxis = chart.categoryAxis;
+			
+			chart.exportConfig = {
+			    menuRight: '100px',
+			    menuBottom: '10px',
+			    menuItems: [{
+			        textAlign: 'center',
+			        onclick: function () {},
+			        icon: '/static/charts/amcharts/images/export.png',
+			        iconTitle: 'Сохранить график',
+			        items: [{
+			            title: 'PNG',
+			            format: 'png'
+			        }, {
+			            title: 'SVG',
+			            format: 'svg'
+			        }]
+			    }],
+			    menuItemOutput:{
+			        fileName:"amChart"
+			    },
+			    menuItemStyle: {
+			        backgroundColor: 'transparent',
+			        rollOverBackgroundColor: '#EFEFEF',
+			        color: '#000000',
+			        rollOverColor: '#CC0000',
+			        paddingTop: '6px',
+			        paddingRight: '6px',
+			        paddingBottom: '6px',
+			        paddingLeft: '6px',
+			        marginTop: '0px',
+			        marginRight: '0px',
+			        marginBottom: '0px',
+			        marginLeft: '0px',
+			        textAlign: 'left',
+			        textDecoration: 'none'
+			    }
+			};
+			categoryAxis.labelRotation = 45;
+			categoryAxis.fontSize = 10;
+			categoryAxis.minPeriod = "ss";
+			categoryAxis.startOnAxis = true;
+			categoryAxis.guides = chartErrors;
+			chart.dataProvider = chartData;
+			chart.categoryField = "time";
+			chart.chartCursor = {"cursorPosition": "mouse"};
+			chart.type="serial";
+			var last_value = chart.dataProvider[chart.dataProvider.length-1].value;
+			chart.valueAxes=[{
+				"position": "left", 
+				"title": tagname
+			}];
+			graph.valueField = "value";
+			graph.type="line";
+			graph.fillAlphas = 0.4;
+			graph.bulletField = "bullet";
+			graph.colorField = "fillColors";
+			graph.descriptionField = "description";
+			graph.balloonText = "[[description]]";
+			chart.addGraph(graph);
+			chart.write("chartdiv");
+
+			// Вывод значений в таблицу
+			$("#values_tbl").empty()
+			$.each(data.vals_and_times, function(key,val){
+				$("#values_tbl").append(val.time+":\t"+val.description+"<br>");
+			});
+
+			// Ошибки, показываем или прячем 
+	        $("#errors_hide").click(function(){
+				categoryAxis.guides={};
+				chart.validateNow();
+			});
+	        $("#errors_show").click(function(){
+				categoryAxis.guides=chartErrors;
+				chart.validateNow();
+			});
+			clearInterval(reload_data);
+	        reload_data = setInterval(function(){reload(chart, tagid, categoryAxis.guides);}, 2000);
+		}
+		// Выбор другого тэга для отображения
+		$("#device").chained("#bus");
+		$("#tag").chained("#device");
+		$("#tag").change(function(){
+			if (this.value != ""){
+				load_data(this.value, $("#tag option:selected").text(), $("#inputFieldStart").val(), $("#inputFieldEnd").val());
+				chart.validateNow();
+			}
+		});
+
+
+		// Автообновление
+		function reload(chart, tagid, chartErrors){
+	    	if ($('#autoupdate').is(':checked')){
+		    	// Подгружаем последнее значение
+	            var chartData = $.getJSON("/current_values_for_graph_autoupdate/"+tagid)
+	            .done(function(json) {
+	                  get_data_ok_to_reload(json);
+	            })
+	            .fail(function(json) {
+	                  get_data_fail();
+	            });
+
+	            function get_data_ok_to_reload(data){
+			    	// Удаляем первое значение
+			        chart.dataProvider.shift();  
+			        // Добавляем новое
+			        // Если время из редиса меньше предыдущего (на один шаг) времени - ставим текущее по серверу, если больше - ставим время из редиса
+			        var server_time = Number(data.server_time).toFixed();
+			        var ts_from_redis = (moment(data.vals_and_times[0].time, 'DD.MM.YYY HH:mm:ss').unix());
+			        var ts_predecessor = (moment(chart.dataProvider[chart.dataProvider.length-1].time, 'DD.MM.YYY HH:mm:ss').unix());
+
+			        if (Number(ts_from_redis) <= Number(ts_predecessor)){
+			        	var now = moment.unix(server_time).format("DD.MM.YYYY HH:mm:ss");
+			        } else {
+			        	var now = data.vals_and_times[0].time;
+			        }
+
+			        chart.dataProvider.push({
+			            time: now,
+			            value: data.vals_and_times[0].value,
+			            description: data.vals_and_times[0].description
+			        });
+		        
+			        if(data.errors[0]){
+				        chartErrors.push({
+							category: data.errors[0].category,
+							toCategory: data.errors[0].toCategory,
+							lineColor: data.errors[0].lineColor,
+							lineAlpha: data.errors[0].lineAlpha,
+							fillAlpha: data.errors[0].fillAlpha,
+							fillColor: data.errors[0].fillColor,
+							dashLength: data.errors[0].dashLength,
+							inside: data.errors[0].inside,
+							labelRotation: data.errors[0].labelRotation,
+							label: data.errors[0].label				        	
+				        })
+				    }
+			        chart.validateData();
+			        $("#values_tbl").empty().append(data.vals_and_times[0].value)
+		    	}
+		    }
+		}
+
+    });
+</script>
+
+<div id="chartdiv"></div><br></br>
+<div id="values_tbl"></div><br>
+<div id="about">
+<b>Функциональные возможности:</b> отображение данных о значениях выбранного тэга за указанный период в графическом формате.<br><br>
+<b>Указание даты:</b> без указания даты будут отображаться данные за последний час. Если дата указывается - необходимо указать нижний и верхний диапазон. Не рекомендуется указывать слишком широкий диапазон дат, так как это влияет на работу сервера.<br><br>
+<b>Выбор тэга:</b> укажите шину, выберите доступные на этой шине устройства и тэг, принадлежащий этому устройству. График автоматически выстроится. При выборе другого тэга график перестроится. Если была указана дата график будет построен за тот же диапазон. Без указания даты - за последний час.<br><br>
+<b>Отображение графика:</b> при наведении на график показывается значение и временная отметка. Возможно масштабирование по временной шкале "протягиванием" мышки при зажатой левой кнопке, вернуться к отображению всех данных можно кликом на кнопку "Show all" в верхнем правом углу. Возможно включение и отображения ошибок на графике ссылками "скрыть" и "показать". Минимальное значение показывается синим треугольником вершиной вниз, максимальное - красным вершинйо вверх. <br><br> Автоообновлление данных включается/выключается установкой галочки, частота обновления - 2 сек.
+</div>

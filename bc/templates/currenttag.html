@@ -1,0 +1,29 @@
+{% extends "base4arms.html" %} 
+{% load date_from_ts %}
+{% load staticfiles %}
+
+{% block mainblock %}
+
+<div id="img_reload">
+<img src="/static/graph/{{ current_tag.tagname }}.png">
+</div><br><br>
+
+<script>
+    setInterval(function(){
+    var img_tag = '<img src=/static/graph/{{ current_tag.tagname }}.png?img' +Math.random(0,100)+ '>';
+    document.getElementById('img_reload').innerHTML = img_tag
+    },
+    4000);
+</script>
+
+<script type="text/javascript">
+window.setInterval(function(){
+        $.ajax({
+          url: '/currenttag/?tag={{ current_tag.tagname }}'
+          });
+}, 3000);
+</script>
+
+
+
+{% endblock %}

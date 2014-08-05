@@ -1,0 +1,144 @@
+{% load staticfiles %}
+{% load get_id %}
+<script src="{% static 'jquery-1.10.2.min.js' %}"></script>
+<script src="{% static 'charts/amcharts/amcharts.js' %}"></script>
+<script src="{% static 'charts/amcharts/serial.js' %}"></script>
+<script src="{% static 'charts/amcharts/themes/dark.js' %}"></script>
+<script src="{% static 'jquery_chained-master/jquery.chained.min.js' %}"></script>
+
+{#  Для календарика  #}
+    <script src="{% static 'dp/jsDatePick.min.1.3.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'dp/jsDatePick_ltr.min.css' %}">
+
+<style>
+	#chartdiv {
+		width	: 100%;
+		height	: 500px;
+	}	
+</style>
+
+
+<script type="text/javascript">
+	window.onload = function(){
+		new JsDatePick({
+			useMode:2,
+			target:"inputFieldStart",
+			dateFormat:"%d-%m-%Y"
+		});
+
+        new JsDatePick({
+            useMode:2,
+            target:"inputFieldEnd",
+            dateFormat:"%d-%m-%Y"
+        });
+	};
+</script>
+
+<form>
+	Выбор другого тега:
+	<select id="bus" name="bus">
+	  <option value="">Выберите шину</option>
+	  {% for bus in buses %}<option value="{{ bus|mongo_id }}">{{ bus.name }}</option>{% endfor %}
+	</select>
+	<select id="device" name="device">
+	  <option value="">Выберите устройство</option>
+	  {% for device in devices %}<option value="{{ device|mongo_id }}" class="{{ device.parent }}">{{ device.name }}</option>{% endfor %}
+	</select>
+	<select id="tag" name="tag">
+	  <option value="">Выберите тэг</option>
+	  {% for tag in tags %}<option value="{{ tag|mongo_id }}" class="{{ tag.parent }}">{{ tag.name }}</option>{% endfor %}
+	</select>
+</form>
+
+<script type="text/javascript">
+
+	$(window).load(function(){
+		// Загружаем данные
+        function load_data(url, tagname){
+            var chartData = $.getJSON("/current_values_for_graph/"+url+"?start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}")
+            .done(function(json) {
+                  get_data_ok(json, tagname);
+            })
+            .fail(function(json) {
+                  get_data_fail();
+            });
+        }
+
+        // Первая загрузка страницы, отправляем ID тэга и его имя.
+        load_data("{{ tagid }}", "{{ tag.name }}");
+
+        // Данные не загрузились
+        function get_data_fail(data){
+        	$("#chartdiv").empty().append("Ошибка загрузки данных. Попробуйте позже.");
+        }
+
+        // Данные загружены
+		function get_data_ok(data, tagname){
+			// Строим график
+			var chartData = data.vals_and_times;
+			var chartErrors = data.errors;
+
+			var chart = new AmCharts.AmSerialChart();
+			var graph = new AmCharts.AmGraph();
+			var categoryAxis = chart.categoryAxis;
+			categoryAxis.labelRotation = 45;
+			categoryAxis.fontSize = 10;
+			categoryAxis.minPeriod = "ss";
+			categoryAxis.startOnAxis = true;
+			categoryAxis.guides = chartErrors;
+			chart.dataProvider = chartData;
+			chart.categoryField = "time";
+			chart.chartCursor = {"cursorPosition": "mouse"};
+			chart.type="serial";
+			chart.valueAxes=[{"position": "left", "title": tagname}];
+			graph.valueField = "value";
+			graph.type="line";
+			graph.fillAlphas = 0.4;
+			graph.bulletField = "bullet";
+			graph.colorField = "fillColors";
+			graph.descriptionField = "description";
+			graph.balloonText = "[[description]]";
+			chart.addGraph(graph);
+			chart.write("chartdiv");
+
+			// Вывод значений в таблицу
+			$("#values_tbl").empty()
+			$.each(data.vals_and_times, function(key,val){
+				$("#values_tbl").append(val.time+":\t"+val.description+"<br>");
+			});
+
+			// Ошибки, показываем или прячем 
+	        $("#errors_hide").click(function(){
+				categoryAxis.guides={};
+				chart.validateNow();
+			});
+	        $("#errors_show").click(function(){
+				categoryAxis.guides=chartErrors;
+				chart.validateNow();
+			});
+
+		}
+
+		// Выбор другого тэга для отображения
+		$("#device").chained("#bus");
+		$("#tag").chained("#device");
+		$("#tag").click(function(){
+			var originalAttributes = "";
+			$('#tag').attr('value',originalAttributes);
+			$("#tag").change(function(){
+				if (this.value != ""){
+					load_data(this.value, $("#tag option:selected").text());
+					chart.validateNow();
+				}
+			});
+		});
+
+    });
+</script>
+
+<form action="" method="get"> <p>
+С <input placeholder="дд-мм-гггг" type="text" id="inputFieldStart" name="start_date" value="" />  по <input placeholder="дд-мм-гггг" type="text" id="inputFieldEnd" name="end_date" value="" /> <input type=submit value=Ok></p>
+</form>
+Ошибки: <a href="#" id="errors_hide">скрыть</a>, <a href="#" id="errors_show">показать</a>
+<div id="chartdiv"></div><br></br>
+<div id="values_tbl"></div>

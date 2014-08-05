@@ -1,0 +1,36 @@
+{% load get_id %}
+{% load get_tree %}
+{% load get_group %}
+
+
+<ul>
+    {% for child in children %}
+    <li>
+	    {% ifequal child.interview True %}
+	    	<span id='on'>
+	    	<a href="?off={{ child|mongo_id }}" title="Выключить"><img src="/static/icons/off_.png" vspace=></a>
+	    {% else %}
+	    	<span id='off'>
+	    	<a href="?on={{ child|mongo_id }}" title="Включить"><img src="/static/icons/on.png"></a>
+	    {% endifequal %}
+		
+		<a href="javascript:look('{{ child|mongo_id }}');" id="_{{ child|mongo_id }}">{{ child.name }}</a></span></li>
+
+		<div id="{{ child|mongo_id }}" style="display:none;" class='comment'>
+            <a href="/add/{{ child|mongo_id }}"><img src="/static/icons/add_.png"></a> <a href="/clone/{{ child|mongo_id }}"><img src="/static/icons/clone_.png"></a> <a href="?del={{ child|mongo_id }}"><img src="/static/icons/del_.png"></a> <a href="/edit/{{ child|mongo_id }}" target="blank"><img src="/static/icons/edit_.png"></a> <a href='/tag/groups/{{ child|mongo_id }}'><img src="/static/icons/groups_.png"></a>{% ifequal child.type 'device' %} <a href='/arch/{{ child|mongo_id }}'><img src="/static/icons/arch.png"></a>{% endifequal %} {% ifequal child.type 'tag' %}<a href='/drags/{{ child|mongo_id }}'><img src="/static/icons/charts_.png"></a>{% endifequal %} {% ifequal child.type 'group' %}<a href='/groups/{{ child|mongo_id }}'><img src="/static/icons/tags.png"></a>{% endifequal %} {% ifequal child.type 'arm' %}<a href='/arm/{{ child|mongo_id }}'><img src="/static/icons/tags.png"></a>{% endifequal %}
+            <hr>
+
+            {% for key, value in child.items %}
+            	{% ifequal key 'groups' %}
+            		<u>{{ key }}</u> => [{% for group in child.groups|group_name %}{{ group.name }}, {% endfor %}], 
+            	{% else %}
+            		<u>{{ key }}</u> => {{ value }}, 
+            	{% endifequal %}
+            {% endfor %}
+            
+        </div>
+
+		{% children_tag child|mongo_id %}
+    {% endfor %}
+
+</ul>

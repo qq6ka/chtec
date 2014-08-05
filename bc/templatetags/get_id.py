@@ -1,0 +1,1 @@
+from django import templateregister = template.Library()def mongo_id(value):	return str(value['_id'])		register.filter('mongo_id', mongo_id)

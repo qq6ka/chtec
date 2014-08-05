@@ -1,0 +1,42 @@
+{% extends "base4arms.html" %} 
+{% load date_from_ts %}
+{% load get_id %}
+
+{% block mainblock %}
+
+<script type="text/javascript">
+$(function () {
+    {% for ka in all_ka %}
+    	$('#{{ ka }}').load('/myeco/?groups={{ ka }},');
+    {% endfor %}
+});
+
+$(function () {
+  setInterval(function () {
+		{% for ka in all_ka %}
+			$('#{{ ka }}').load('/myeco/?groups={{ ka }},');
+		{% endfor %}
+  }, 20000);
+});
+
+$(function () {
+  setInterval(function () {
+		location.reload(true);
+  }, 300000);
+});
+
+</script>
+
+<table width="100%"><tr>
+	{% for ka in all_ka %}
+		<td width="50%">
+		<div id="{{ ka }}"></div>
+		</td>
+		{% if forloop.counter|divisibleby:"2" %}
+		</tr>
+		<tr>
+		{% endif %}
+	{% endfor %}
+<tr></table>
+
+{% endblock %}

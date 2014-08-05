@@ -1,0 +1,38 @@
+{% extends "base4arms.html" %} 
+{% load date_from_ts %}
+{% load get_id %}
+
+{% block mainblock %}
+
+<h1>{{ current_arm.name }}</h1>
+
+
+
+
+
+
+
+ <script type="text/javascript">
+
+window.setInterval(function(){
+	$(document).ready(function(){
+		$('#load_this').load('/mydata/?groups={% for group in groups %}{{ group.environment }},{% endfor %}');
+	});
+}, 4000);
+
+window.setInterval(function(){
+	$(document).ready(function(){
+		location.reload(true);
+	});
+}, 600000);
+</script>
+
+
+
+
+
+<table width="100%" class="main">
+    <tr valign="top"><td id="container"><div id="load_this"></div></td></tr>
+</table>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load get_id %}
+{% load get_tree %}
+
+
+{% block mainblock %}
+<table border="0" width="100%" class="main"><tr>
+<td width="50%" valign="top">
+	<ul><h1>Существующие шины <span id=on><a href="/add">Новая шина</a></span></h1>
+	{% for x in tree %}
+	<li> 
+		{% ifequal x.interview True %}
+			<span id='on'>
+		{% else %}
+			<span id='off'>
+		{% endifequal %}
+	    {% ifequal x.interview True %}<a href="?off={{ x|mongo_id }}" title="Выключить"><img src="/static/icons/off_.png" vspace=></a>{% else %}<a href="?on={{ x|mongo_id }}" title="Включить"><img src="/static/icons/on.png"></a>{% endifequal %}
+		<a href="javascript:look('{{ x|mongo_id }}');" id="_{{ x|mongo_id }}">{{ x.name }}</a></span></li>
+		<div id="{{ x|mongo_id }}" style="display:none" class='comment'>
+	        <a href="?del={{ x|mongo_id }}"><img src="/static/icons/del_.png"></a> <a href="/buses/{{ x|mongo_id }}" target="blank"><img src="/static/icons/edit_.png"></a>
+	        <hr>
+	        {% for key, value in x.items%}<u>{{ key }}</u> => {{ value }}, {% endfor %}</div>
+	<!-- 	{% children_tag x|mongo_id %} -->
+	</li>
+	{% endfor %}
+	</ul>
+</td><td width="50%" valign="top">
+	{#  Выборка настроек  #}
+	<ul>
+	<h1>Настройки проекта</h1>
+	{% for x in settings_tree %}
+		<li><span id='off'><a href="javascript:look('{{ x|mongo_id }}');">{{ x.name }}</a></span></li>
+			<div id="{{ x|mongo_id }}" style="display:none" class='comment'>
+		        <a href="/add/{{ x|mongo_id }}"><img src="/static/icons/add_.png"></a> <a href="?del={{ x|mongo_id }}"><img src="/static/icons/del_.png"></a> <a href="/edit/{{ x|mongo_id }}" target="blank"><img src="/static/icons/edit_.png"></a>
+		        <hr>
+		        {% for key, value in x.items%}<u>{{ key }}</u> => {{ value }}, {% endfor %}
+		    </div>
+			{% children_tag x|mongo_id %}
+		</li>
+	{% endfor %}
+	</ul>
+</td>
+</tr>
+</table>
+{% endblock %}

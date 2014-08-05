@@ -1,0 +1,106 @@
+{% load staticfiles %}
+<script src="{% static 'jquery-1.10.2.min.js' %}"></script>
+<script src="{% static 'charts/amcharts/amcharts.js' %}"></script>
+<script src="{% static 'charts/amcharts/serial.js' %}"></script>
+<script src="{% static 'charts/amcharts/themes/dark.js' %}"></script>
+
+{#  Для календарика  #}
+    <script src="{% static 'dp/jsDatePick.min.1.3.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'dp/jsDatePick_ltr.min.css' %}">
+
+<style>
+	#chartdiv {
+		width	: 100%;
+		height	: 500px;
+	}	
+</style>
+
+
+<script type="text/javascript">
+	window.onload = function(){
+		new JsDatePick({
+			useMode:2,
+			target:"inputFieldStart",
+			dateFormat:"%d-%m-%Y"
+		});
+
+        new JsDatePick({
+            useMode:2,
+            target:"inputFieldEnd",
+            dateFormat:"%d-%m-%Y"
+        });
+	};
+</script>
+
+
+
+
+
+
+<script type="text/javascript">
+
+	$(window).load(function(){
+        function load_data(){
+            var chartData = $.getJSON("/current_values_for_graph/{{ tagid }}?start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}")
+            .done(function(json) {
+                  get_data_ok(json);
+            })
+            .fail(function(json) {
+                  get_data_fail();
+            });
+        }
+
+        load_data();
+
+        function get_data_fail(data){
+        	alert("Кажется, что-то пошло не так, попробуйте позже!");
+        }
+
+		function get_data_ok(data) {
+			// Строим график
+			var chartData = data.vals_and_times;
+			var chartErrors = data.errors;
+			var chart = AmCharts.makeChart("chartdiv", {
+			    "type": "serial",
+				"theme": "none",
+			    "pathToImages": "http://www.amcharts.com/lib/3/images/",
+			    "dataProvider": chartData,
+			    "valueAxes": [{
+			        "position": "left",
+			        "title": "{{ tag.name|safe }}"
+			    }],
+			    "graphs": [{
+			        "fillAlphas": 0.4,
+			        "valueField": "value",
+			        "bulletField": "bullet",
+			        "colorField": "fillColors",
+			        "descriptionField": "description",
+			        "balloonText": "[[description]]"
+			    }],
+			    "chartScrollbar": {},
+			    "chartCursor": {
+			        "cursorPosition": "mouse"
+			    },
+			    "categoryField": "time",
+			    "categoryAxis": {
+			    	"labelRotation":45,
+			    	"minPeriod": "ss",
+			    	"startOnAxis": true,
+			        "guides": chartErrors
+			    }
+			});
+			// Вывод значений в таблицу
+			$.each(data.vals_and_times, function(key,val){
+				$("#values_tbl").append(val.time+":\t"+val.description+"<br>");
+			});
+		}
+
+    });
+</script>
+
+<!-- <form action="" method="get"> <p>
+С <input placeholder="дд-мм-гггг" type="text" id="inputFieldStart" name="start_date" value="" />  по <input placeholder="дд-мм-гггг" type="text" id="inputFieldEnd" name="end_date" value="" /> <input type=submit value=Ok></p>
+</form> -->
+
+<div id="chartdiv"></div><br></br>
+<div id="values_tbl"></div>

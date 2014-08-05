@@ -1,0 +1,48 @@
+{% extends "index.html" %}
+{% block mainblock %}
+
+
+
+
+<script charset=utf-8>
+$(function(){
+  $("#id_sotrudnik").chained("#id_otdel");
+});
+</script>
+
+
+
+		<span class="h">Добавление новой задачи</span><br><br>
+	<table table width="50%" class="main" align="center" cellpadding="10" cellspacing="0" border="0">
+	<tr><td class="my">
+			<form enctype="multipart/form-data" action='' method='post' class="formee">{% csrf_token %}
+			{% for field in form %}
+				<div class="fieldWrapper">
+					{{ field.errors }}
+					{{ field.label_tag }}<br>{{ field }}
+				</div><br>
+			{% endfor %}
+
+
+
+
+<div class="fieldWrapper">
+	<label for="id_sotrudnik">Сотрудник</label><br><select id="id_sotrudnik" name="sotrudnik">
+	<option value="" selected="selected">---------</option>
+	
+		{% for s in sotr %}
+			<option value="{{ s.id }}" class="{{ s.otdel.id }}">{{ s }}</option>
+		{% endfor %}
+	
+	</select>
+</div>
+
+
+
+
+			
+	<center><input type="submit" value="Сохранить"></center>
+	</form>
+	</td></tr>
+	</table>
+{% endblock %}

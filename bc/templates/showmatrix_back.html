@@ -1,0 +1,75 @@
+{% extends "base.html" %} 
+{% load date_from_ts %}
+{% load staticfiles %}
+
+{% block mainblock %}
+
+
+<script src="{% static 'jquery.js' %}"></script>
+<script src="{% static 'flexigrid/js/flexigrid.pack.js' %}"></script>
+<link rel="stylesheet" href="{% static 'flexigrid/css/flexigrid.pack.css' %}">
+{#  Для календарика  #}
+    <script src="{% static 'dp/jsDatePick.min.1.3.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'dp/jsDatePick_ltr.min.css' %}">
+
+<script type="text/javascript">
+	window.onload = function(){
+		new JsDatePick({
+			useMode:2,
+			target:"inputField",
+			dateFormat:"%d-%m-%Y"
+		});
+	};
+</script>
+
+{##}
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.flexme').flexigrid({height:400});
+    });
+
+var tableToExcel = (function() {
+  var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+  return function(table, name) {
+    if (!table.nodeType) table = document.getElementById(table)
+    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+    window.location.href = uri + base64(format(template, ctx))
+  }
+})()
+
+</script>
+
+<div class="container">
+<a href="?show">Редактирование</a><br><br>
+    <form action="" method="get"> <p>
+    <h1>{{ report.report_name }}, за {{ date2select|ts2date|date:"d.m.Y" }}<br><input placeholder="Выбрать другую дату" type="text" id="inputField" name="date" value="" /> <input type=submit value=Ok></p></h1>
+        <input type="hidden" name="show" value="1">
+    </form>
+<br>
+<input type="button" onclick="tableToExcel('testTable', 'Отчет')" value="Сохранить в Excel">
+<br>
+</div>
+
+    <table id="testTable" class="main_ka" cellpadding="5" width="100%">
+    <tr><td>{{ date2select|ts2date|date:"d.m.Y" }}</td></tr>
+	{% for m in matrix %}
+        <tr>
+        {% for i in m %}
+            {% if i %}
+                <!-- <td bgcolor="#ededcb"><b>{{ i|safe|default_if_none:"" }}</b></td> -->
+                <td bgcolor="#ededcb"><b>{% if i|floatformat:3 %}{{ i|floatformat:3 }}{% else %}{{ i|safe }}{% endif %}</b></td>
+            {% else %}
+                <td>{{ i|safe|default_if_none:"" }}</td>
+            {% endif %}
+        {% endfor %}
+       </tr>
+    {% endfor %}
+    </table>
+{% endblock %}

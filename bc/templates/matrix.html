@@ -1,0 +1,42 @@
+{% extends "base.html" %} 
+{% load staticfiles %}
+{% load get_parent_by_tagname %}
+{% load get_id %}
+
+{% block mainblock %}
+<script src="{% static 'jquery.js' %}"></script>
+<script src="{% static 'flexigrid/js/flexigrid.pack.js' %}"></script>
+<link rel="stylesheet" href="{% static 'flexigrid/css/flexigrid.pack.css' %}">
+<script src="{% static 'excellentexport.min.js' %}"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.flexme').flexigrid({height:700});
+});
+</script>
+<a href="?show=1">Просмотр</a><br><br>
+
+    <form action="" method="post">
+    <table id="datatable" border="0" class="flexme" cellspacing=1 cellpadding=1>
+    <thead><tr><th width="100">&nbsp;</th>{% for m in matrix.0 %}<th width="100">{{ forloop.counter0 }}</th>{% endfor %}</tr></thead>
+    <tbody>
+	{% for m in matrix %}
+        <tr><td class="headcol">{{ forloop.counter0 }}</td>
+        {% for i in m %}
+            <td><input title="[{{ forloop.parentloop.counter0 }},{{ forloop.counter0 }}] {{ i }}" list="list_of_tags" class="line" type=text name=[{{ forloop.parentloop.counter0 }},{{ forloop.counter0 }}] id=[{{ forloop.parentloop.counter0 }},{{ forloop.counter0 }}] value="{{ i|default_if_none:'' }}"></td>
+        {% endfor %}
+       </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    <input type=submit value=Ok> <input type=reset value=Clear> <a download="rep.xls" href="#" onclick="return ExcellentExport.excel(this, 'datatable', 'rep.xls');">Сохранить в Excel</a>
+    </form>
+
+<datalist id="list_of_tags">
+    {% for tag in tags %}
+        <option value=":{@{{ tag.short_name }}}">{{ tag.short_name }} | {{ tag|mongo_id|get_parent }} | {{ tag.name }}</option>
+    {% endfor %}
+</datalist>
+
+
+{% endblock %}

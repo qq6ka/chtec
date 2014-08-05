@@ -1,0 +1,49 @@
+{% extends "base4arms.html" %} 
+{% load get_id %}
+{% block mainblock %}
+        <h1>Рабочие места</h1>
+        <ul>
+        {% for arm in arms %}
+        	<li><span id="off">
+        		<a href="/arms/{{ arm|mongo_id }}">{{ arm.name }}</a>
+        	</span></li>
+        {% endfor %}
+        {% for arm in current_arms %}
+            <li><span id="off">
+                <a href="/reports_curr/{{ arm|mongo_id }}?show=1">{{ arm.report_name }}</a>
+            </span></li>
+        {% endfor %}
+        	<li><span id="off">
+        		<a href="/ttc_show/">Система взвешивания топлива</a>
+        	</span></li>
+            <li><span id="off">
+                <a href="/protect_state/">Состояние защит</a>
+            </span></li>
+            <li><span id="off">
+                <a href="/bu_scheme/">Схема бойлерых установок</a>
+            </span></li>
+            <li><span id="off">
+                <a href="/reports/">Отчеты</a>
+            </span></li>
+            <li><span id="off">
+                <a href="/graph/">Построение графиков</a>
+            </span></li>
+        </ul>
+        <h1>Котлоагрегаты</h1>
+	    <form name="test" method="post">
+	        <input type="checkbox" name="ka-1" value='ka-1'> ka-1,
+	        <input type="checkbox" name="ka-2" value='ka-2'> ka-2,
+	        <input type="checkbox" name="ka-3" value='ka-3'> ka-3,
+	        <input type="checkbox" name="ka-4" value='ka-4'> ka-4,
+	        <input type="checkbox" name="ka-5" value='ka-5'> ka-5,
+	        <input type="checkbox" name="ka-6" value='ka-6'> ka-6,
+	        <input type="checkbox" name="ka-7" value='ka-7'> ka-7,
+	        <input type="checkbox" name="ka-8" value='ka-8'> ka-8,
+	        <input type="checkbox" name="ka-9" value='ka-9'> ka-9,
+	        <input type="checkbox" name="ka-10" value='ka-10'> ka-10,
+	        <input type="checkbox" name="ka-11" value='ka-11'> ka-11,
+	        <input type="checkbox" name="ka-12" value='ka-12'> ka-12,
+	        <input type="checkbox" name="ka-13" value='ka-13'> ka-13
+	    <input type="submit" value="Отправить">
+	    </form>
+{% endblock %}

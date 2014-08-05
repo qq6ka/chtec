@@ -1,0 +1,5 @@
+{% load get_id %}
+<select id="children" name="children">
+    <option value="">--</option>
+    {% for children in childrens %}<option value="{{ children|mongo_id }}">{{ children.name }}</option>{% endfor %}
+</select>

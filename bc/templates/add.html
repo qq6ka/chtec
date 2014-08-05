@@ -1,0 +1,11 @@
+{% extends "base.html" %} 
+{% block mainblock %}
+	{% if current_parrent.name %}
+        <h1>Новые шина/устройство/тэг, добавляется в: {{ current_parrent.name }}</h1>
+	{% else %}
+        <h1>Добавление новой шины</h1>
+	{% endif %}
+		<form action="" method="post">
+            <p>Имя поля <input type=text name=field_name> Значение поля <input type=text name=field_value> <input type=submit value=Ok>
+        </form>
+{% endblock %}

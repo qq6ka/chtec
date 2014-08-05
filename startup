@@ -1,0 +1,20 @@
+#! /bin/sh
+#
+
+modprobe npreal2 ttymajor=0 calloutmajor=32767 verbose=0
+# Путь к установленному драйверу вирт. com-портов 
+/usr/lib/npreal2/driver/mxloadsvr
+
+# Путь к MongoDB, запускаем сервер
+/home/root2/mongodb-linux-x86_64-2.6.1/bin/mongod -config /home/root2/mptt/mongo.cfg &
+sleep 10
+# Путь к Redis, запускаем сервер
+/usr/local/bin/redis-server > /dev/null &
+/usr/sbin/nginx > /dev/null &
+# Путь к uWSGI, запускаем
+/usr/sbin/uwsgi --ini /home/root2/mptt/uwsgi.ini > /dev/null &
+python /home/root2/mptt/readtags/todo.py &
+sleep 10
+python /home/root2/mptt/readtags/test_read_tags.py &
+# FTP
+/usr/sbin/pure-ftpd -4 -A -B -M -l unix -U 022:022

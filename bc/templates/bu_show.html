@@ -1,0 +1,153 @@
+{% load staticfiles %}
+<script src="{% static 'jquery-1.10.2.min.js' %}"></script>
+
+<EMBED id="svg" SRC="/static/boilern.svg" NAME="SVGEmbed" HEIGHT="100%" WIDTH="100%" TYPE="image/svg-xml" PLUGINSPAGE="http://www.adobe.com/svg/viewer/install/">
+
+<script type="text/javascript">
+$(document).ready(function(){
+        setInterval(function () {
+            var SVG = document.getElementById("svg").getSVGDocument();
+            $(SVG.getElementById("0")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("ТГ 1-6 сумм. ам"));
+            $(SVG.getElementById("1")).css({'font-size':10});
+            $(SVG.getElementById("1")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-5 Q подающ. калориф."));
+            $(SVG.getElementById("2")).css({'font-size':10});
+            $(SVG.getElementById("2")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-1 Q подающ. трубопр."));
+            $(SVG.getElementById("3")).css({'font-size':10});
+            $(SVG.getElementById("3")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-1 Т подающ. трубопр."));
+            $(SVG.getElementById("4")).css({'font-size':10});
+            $(SVG.getElementById("4")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-1 Т за ОБ-1"));
+            $(SVG.getElementById("5")).css({'font-size':10});
+            $(SVG.getElementById("5")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-1 Т обрат. трубопр."));
+            $(SVG.getElementById("6")).css({'font-size':10});
+            $(SVG.getElementById("6")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-2 Q подающ."));
+            $(SVG.getElementById("7")).css({'font-size':10});
+            $(SVG.getElementById("7")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-2 Т подающ. трубопр."));
+            $(SVG.getElementById("8")).css({'font-size':10});
+            $(SVG.getElementById("8")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-2 Т за ОБ-2"));
+            $(SVG.getElementById("9")).css({'font-size':10});
+            $(SVG.getElementById("9")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-2 Т обрат. трубопр."));
+            $(SVG.getElementById("10")).css({'font-size':10});
+            $(SVG.getElementById("10")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("КСК ГЩУ Q трубопр ХО подп КСК"));
+            $(SVG.getElementById("11")).css({'font-size':10});
+            $(SVG.getElementById("11")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-3 Q подающ трубопр"));
+            $(SVG.getElementById("12")).css({'font-size':10});
+            $(SVG.getElementById("12")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-3 Т за обводом подающ трубопр"));
+            $(SVG.getElementById("13")).css({'font-size':10});
+            $(SVG.getElementById("13")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-4 Q подающ. трубопр."));
+            $(SVG.getElementById("14")).css({'font-size':10});
+            $(SVG.getElementById("14")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-4 Т подающ. трубопр."));
+            $(SVG.getElementById("15")).css({'font-size':10});
+            $(SVG.getElementById("15")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-4 Т обрат. трубопр"));
+            $(SVG.getElementById("16")).css({'font-size':10});
+            $(SVG.getElementById("16")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-5 Q подающ."));
+            $(SVG.getElementById("17")).css({'font-size':10});
+            $(SVG.getElementById("17")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-5 Т подающ. трубопр."));
+            $(SVG.getElementById("18")).css({'font-size':10});
+            $(SVG.getElementById("18")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-6 Т подающ. трубопр."));
+            $(SVG.getElementById("19")).css({'font-size':10});
+            $(SVG.getElementById("19")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-6 Q подающ. трубопр."));
+            $(SVG.getElementById("20")).css({'font-size':10});
+            $(SVG.getElementById("20")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-4 Т за ОБ-4"));
+            $(SVG.getElementById("21")).css({'font-size':10});
+            $(SVG.getElementById("21")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-5 Т за ОБ-5"));
+            $(SVG.getElementById("22")).css({'font-size':10});
+            $(SVG.getElementById("22")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-6 Т за ОБ-6"));
+            $(SVG.getElementById("23")).css({'font-size':10});
+            $(SVG.getElementById("23")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-5 Т обрат. трубопр."));
+            $(SVG.getElementById("24")).css({'font-size':10});
+            $(SVG.getElementById("24")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-6 Т обрат. трубопр."));
+            $(SVG.getElementById("25")).css({'font-size':10});
+            $(SVG.getElementById("25")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Q прям. 1000"));
+            $(SVG.getElementById("26")).css({'font-size':10});
+            $(SVG.getElementById("26")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Т прям. 1000"));
+            $(SVG.getElementById("27")).css({'font-size':10});
+            $(SVG.getElementById("27")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Р прям. 1000"));
+            $(SVG.getElementById("28")).css({'font-size':10});
+            $(SVG.getElementById("28")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("КСК ГЩУ Р подающ. трубопр."));
+            $(SVG.getElementById("29")).css({'font-size':10});
+            $(SVG.getElementById("29")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("КСК ГЩУ Т подающ. трубопр."));
+            $(SVG.getElementById("30")).css({'font-size':10});
+            $(SVG.getElementById("30")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("КСК ГЩУ Q подающ. трубопр."));
+            $(SVG.getElementById("31")).css({'font-size':10});
+            $(SVG.getElementById("31")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("КСК ГЩУ Р обрат. трубопр."));
+            $(SVG.getElementById("32")).css({'font-size':10});
+            $(SVG.getElementById("32")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("КСК ГЩУ Т обрат. трубопр."));
+            $(SVG.getElementById("33")).css({'font-size':10});
+            $(SVG.getElementById("33")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("КСК ГЩУ Q обрат. трубопр."));
+            $(SVG.getElementById("34")).css({'font-size':10});
+            $(SVG.getElementById("34")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("НАПТС-3 Q 1 оч. "));
+            $(SVG.getElementById("35")).css({'font-size':10});
+            $(SVG.getElementById("35")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Р прям. 800"));
+            $(SVG.getElementById("36")).css({'font-size':10});
+            $(SVG.getElementById("36")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Т прям. 800"));
+            $(SVG.getElementById("37")).css({'font-size':10});
+            $(SVG.getElementById("37")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Q прям. 800"));
+            $(SVG.getElementById("38")).css({'font-size':10});
+            $(SVG.getElementById("38")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Р обрат. 800"));
+            $(SVG.getElementById("39")).css({'font-size':10});
+            $(SVG.getElementById("39")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Т обрат. 800"));
+            $(SVG.getElementById("40")).css({'font-size':10});
+            $(SVG.getElementById("40")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Q обрат. 800"));
+            $(SVG.getElementById("41")).css({'font-size':10});
+            $(SVG.getElementById("41")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Р обрат. 1000"));
+            $(SVG.getElementById("42")).css({'font-size':10});
+            $(SVG.getElementById("42")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Т обрат. 1000"));
+            $(SVG.getElementById("43")).css({'font-size':10});
+            $(SVG.getElementById("43")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ Q обрат. 1000"));
+            $(SVG.getElementById("44")).css({'font-size':10});
+            $(SVG.getElementById("44")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-4 Q подп. ХОВ"));
+            $(SVG.getElementById("45")).css({'font-size':10});
+            $(SVG.getElementById("45")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-2 Т подводов ХОВ к деаэр"));
+            $(SVG.getElementById("46")).css({'font-size':10});
+            $(SVG.getElementById("46")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-3 Т обрат. трубопр."));
+            $(SVG.getElementById("47")).css({'font-size':10});
+            $(SVG.getElementById("47")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-1 W по магистр."));
+            $(SVG.getElementById("48")).css({'font-size':10});
+            $(SVG.getElementById("48")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-2 W по магистр."));
+            $(SVG.getElementById("49")).css({'font-size':10});
+            $(SVG.getElementById("49")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("КСК ГЩУ W по магистр."));
+            $(SVG.getElementById("50")).css({'font-size':10});
+            $(SVG.getElementById("50")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-3 W по магистр."));
+            $(SVG.getElementById("51")).css({'font-size':10});
+            $(SVG.getElementById("51")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-4 W по магистр."));
+            $(SVG.getElementById("52")).css({'font-size':10});
+            $(SVG.getElementById("52")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-5 W по магистр."));
+            $(SVG.getElementById("53")).css({'font-size':10});
+            $(SVG.getElementById("53")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-6 W по магистр."));
+            $(SVG.getElementById("54")).css({'font-size':10});
+            $(SVG.getElementById("54")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ W по магистр. 1000"));
+            $(SVG.getElementById("55")).css({'font-size':10});
+            $(SVG.getElementById("55")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("Город ГЩУ W по магистр. 800"));
+            $(SVG.getElementById("56")).css({'font-size':10});
+            $(SVG.getElementById("56")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-4 Q трубопр. отопл."));
+            $(SVG.getElementById("571")).css({'font-size':10});
+            $(SVG.getElementById("57")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-5 Q подающ. отопл."));
+            $(SVG.getElementById("58")).css({'font-size':10});
+            $(SVG.getElementById("58")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("БУ-1 Q прям. на отопл."));
+            $(SVG.getElementById("59")).css({'font-size':10});
+            $(SVG.getElementById("59")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("ПСГ W по магистр св"));
+            $(SVG.getElementById("60")).css({'font-size':10});
+            $(SVG.getElementById("60")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("АПТС Q 2 оч."));
+            $(SVG.getElementById("61")).css({'font-size':10});
+            $(SVG.getElementById("61")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("ПСГ Q св прямой трубопр"));
+            $(SVG.getElementById("62")).css({'font-size':10});
+            $(SVG.getElementById("62")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("ПСГ Т св обрат трубопр"));
+            $(SVG.getElementById("63")).css({'font-size':10});
+            $(SVG.getElementById("63")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("ПСГ Р св обрат трубопр"));
+            $(SVG.getElementById("64")).css({'font-size':10});
+            $(SVG.getElementById("64")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("ПСГ Т св прямой трубопр"));
+            $(SVG.getElementById("65")).css({'font-size':10});
+            $(SVG.getElementById("65")).load('/get_tag_by_shortname/?tag='+encodeURIComponent("ПСГ Р св прямой трубопр"));
+        }, 1000);
+});
+</script>
+
+
+<script type="text/javascript">
+$(function () {
+  setInterval(function () {
+        location.reload(true);
+  }, 600000);
+});
+
+</script>

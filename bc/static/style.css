@@ -1,0 +1,326 @@
+/*@import url(http://fonts.googleapis.com/css?family=Noto+Sans:400,400italic&subset=cyrillic);*/
+
+hr { color: #CDC8B1; /*для IE */ background-color:#CDC8B1; /*для Firefox, Opera, Safari*/ border:0px none; height:1px; /* высота 1px IE, Firefox, Opera, Safari */ clear:both; /* для очистки, если тег идет после float елемента */ }
+
+#normal{
+color: #228B22;
+}
+#attention{
+color: #D2691E;
+}
+#panic{
+color: #FF0000;
+}
+
+#links {
+ margin-bottom:-40%;
+ color: red;
+ background-color: #c5cfd2;
+ z-index:9;
+ }
+
+#nav{
+FONT-FAMILY:'Noto Sans', sans-serif;
+FONT-SIZE: 11pt;
+height:50px;
+position:fixed;
+top:0px;
+left:10px;
+right:0px;
+z-index:999999;
+line-height:50px;
+}
+
+
+.main_rep {
+	FONT-FAMILY:sans-serif;
+	FONT-SIZE: 8pt;
+}
+
+
+.main {
+	FONT-FAMILY:'Noto Sans', sans-serif;
+	FONT-SIZE: 11pt;
+	color: #696969;
+	border:0;
+	padding:5;
+}
+tr.border_bottom td {
+  border-bottom:1pt solid #CDC8B1;
+  padding-bottom:5;
+}
+.main_ka {
+	FONT-FAMILY:'Noto Sans', sans-serif;
+	FONT-SIZE: 11pt;
+}
+.main_ka td {
+	border: solid 1px #3293c5;
+}
+.summ{
+	background-color: #c5cfd2;
+	font-weight: bold;
+}
+.summ_big{
+	background-color: #cfefa5;
+	font-weight: bold;
+}
+.small{
+	FONT-FAMILY:'Noto Sans', sans-serif;
+	FONT-SIZE: 8pt;	
+}
+
+.value{
+	FONT-FAMILY:'Noto Sans', sans-serif;
+	FONT-SIZE: 12pt;	
+}
+
+.big{
+	FONT-SIZE: 14pt;	
+}
+
+.line {
+  display: block;
+  border: none;
+  background: transparent;
+  border-bottom: #d6eea4 1px dashed;
+  padding: 1px 1px 1px 1px;
+  width: 100%;
+}
+
+.line:focus {
+  outline: none;
+  border-color: #51CBEE;
+  width: 100%;
+}
+
+#testTable{
+	FONT-FAMILY:'Noto Sans', sans-serif;
+	FONT-SIZE: 10;
+}
+
+#allert{
+	padding:10px;
+	background-color: #ca3900;
+	color: #f0de12;
+}
+#allert_ok{
+	padding:10px;
+	background-color: #983402;
+	color: #f0de12;
+}
+
+.blue{
+	padding-right: 100%;
+	padding-top:8px;
+	padding-left:8px;
+	padding-bottom:8px;
+	margin-left: -8px;
+	background-color: #0f9aa7;
+	color: #ffffff;
+}
+
+.green{
+	background-color: #92c714;
+	color: #ffffff;
+	padding: 3px;
+}
+.red{
+	background-color: red;
+	color: #ffffff;
+}
+
+.green_l{
+	background-color: #f3f3f3;
+}
+.green_digits{
+	background-color: #f3f3f3;
+	FONT-SIZE: 14;
+}
+
+.gray{
+	background-color: #ddefee;
+}
+.comment{
+	FONT-FAMILY:'Noto Sans', sans-serif;
+	FONT-SIZE: 12;
+	font-style: italic;
+	padding-left:25;
+	padding-top:5;
+	padding-bottom:5;
+}
+
+.plow{
+	FONT-FAMILY:'Noto Sans', sans-serif;
+	FONT-SIZE: 10;
+}
+.date{
+	FONT-FAMILY:'Noto Sans', sans-serif;
+	FONT-SIZE: 8;
+}
+.for_err{
+	FONT-FAMILY:'Noto Sans', sans-serif;
+	FONT-SIZE: 12;
+}
+
+#top{
+    padding: 8px;
+	border: 0 px solid silver;
+	border-radius:12px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	background-color: #d5b977;
+	color: #FAFAD2;
+    -moz-box-shadow: 0 0 2 rgba(0,0,0,0.1); /* Для Firefox */
+    -webkit-box-shadow: 0 0 2 rgba(0,0,0,0.1); /* Для Safari и Chrome */
+    box-shadow: 0 0 2px rgba(0,0,0,0.1); /* Параметры тени */
+}
+
+#top_small{
+	FONT-FAMILY:'Noto Sans', sans-serif;
+	FONT-SIZE: 10;
+	padding: 5;
+	border: 0 px solid silver;
+	border-radius:6px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	background-color: #d5b977;
+	color: #FAFAD2;
+    -moz-box-shadow: 0 0 2 rgba(0,0,0,0.1); /* Для Firefox */
+    -webkit-box-shadow: 0 0 2 rgba(0,0,0,0.1); /* Для Safari и Chrome */
+    box-shadow: 0 0 2px rgba(0,0,0,0.1); /* Параметры тени */
+}
+
+
+#interface{
+    padding: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+	border: 0 px solid silver;
+	border-radius:6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	background-color: #bea261;
+	color: #FFFFFF;
+
+}
+#on{
+    padding: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+	border: 0 px solid silver;
+	border-radius:6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	background-color: #aee242;
+	color: #FAFAD2;
+    -moz-box-shadow: 0 0 2 rgba(0,0,0,0.1); /* Для Firefox */
+    -webkit-box-shadow: 0 0 2 rgba(0,0,0,0.1); /* Для Safari и Chrome */
+    box-shadow: 0 0 2px rgba(0,0,0,0.1); /* Параметры тени */
+}
+#off{
+    padding: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+	border: 0 px solid silver;
+	border-radius:6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	background-color: #c2c8b5;
+	color: #FAFAD2;
+    -moz-box-shadow: 0 0 2 rgba(0,0,0,0.1); /* Для Firefox */
+    -webkit-box-shadow: 0 0 2 rgba(0,0,0,0.1); /* Для Safari и Chrome */
+    box-shadow: 0 0 2px rgba(0,0,0,0.1); /* Параметры тени */
+}
+
+h1{
+
+	border: 0 px solid silver;
+	border-radius:6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+
+    background-color: #0d7166;
+    margin-bottom: 10px;
+    padding: 5;
+    FONT-FAMILY:'Noto Sans', sans-serif;
+	FONT-SIZE: 14pt;
+    font-weight:normal;
+    color: #FAFAD2;
+}
+
+li{
+	padding:5;
+	list-style-type: none;
+}
+li:before {
+    content: "⇒"; /* Добавляем в качестве маркера символ */
+   }
+
+/*Ссылки для On*/
+#on a:link{
+	text-decoration:none; 
+	color: #FAFAD2;
+}
+#on a:hover	{
+	text-decoration: underline;
+}
+#on a:visited{
+	text-decoration:none;
+	color: #FAFAD2;
+}
+/*Ссылки для Off*/
+#off a:link{
+	text-decoration:none;
+	color: #FAFAD2;
+}
+#off a:hover	{
+	text-decoration: underline;
+}
+#off a:visited{
+	text-decoration:none;
+	color: #FAFAD2;
+}
+/*Ссылки для Top*/
+#top a:link{
+	text-decoration:none;
+	color: #FAFAD2;
+}
+#top a:hover	{
+	text-decoration: underline;
+}
+#top a:visited{
+	text-decoration:none;
+	color: #FAFAD2;
+}
+/*Обычные ссылки*/
+a{
+	text-decoration:underline;
+	color: #0d8a92;
+}
+a.hover{
+	text-decoration: none;
+}
+
+#on:hover{
+	background-color: #9ed52e;
+}
+
+#off:hover{
+	background-color: #B4CDCD;
+}
+
+
+/*Тултип*/
+a.tooltip:link{text-decoration:none;}
+a.tooltip:visited{text-decoration:none;}
+a.tooltip {outline:none; }
+a.tooltip strong {line-height:30px;}
+a.tooltip:hover {text-decoration:none;}
+a.tooltip span { z-index:10;display:none; padding:14px 20px; margin-top:-30px; margin-left:28px; width:240px; line-height:16px; }
+a.tooltip:hover span{ display:inline; position:absolute; color:#111; border:1px solid #DCA; background:#fffAF0;} 
+a.tooltip span { border-radius:4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; -moz-box-shadow: 2px 2px 5px #CCC; -webkit-box-shadow: 2px 2px 5px #CCC; box-shadow: 2px 2px 5px #CCC; }
+.callout {z-index:20;position:absolute;top:30px;border:0;left:-12px;} /*CSS3 extras*/
+
+
+
+/*a.tooltip span { z-index:10;display:none; padding:14px 20px; margin-top:-30px; margin-left:28px; width:240px; line-height:16px; }*/

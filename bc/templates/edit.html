@@ -1,0 +1,37 @@
+{% extends "base.html" %} 
+{% load get_id %}
+{% load get_group %}
+
+{% block mainblock %}
+<script type="text/javascript">
+function getC(str)
+{
+	var a=str.firstChild.data;
+  document.getElementById('id_param').value = str.firstChild.data;
+  document.getElementById('id_value').value = document.getElementById(a).innerHTML;
+}
+</script>
+
+
+	{% for key, value in result.items %}
+		<li><span id=off>(<a href='?del={{key}}'>x</a>) 
+    {% if key == 'groups' %}
+        <a href="javascript:void(0)" onclick="getC(this)">{{key}}</a> => <span id={{key}}>[{% for group in value|group_name %}{{ group.name }}, {% endfor %}]</span>
+      {% elif key == 'bg_color' %}
+        <a href="javascript:void(0)" onclick="getC(this)">{{key}}</a> => <span id={{key}} style="color:{{value}}">{{value}}</span>
+      {% else %}
+        <a href="javascript:void(0)" onclick="getC(this)">{{key}}</a> => <span id={{key}}>{{value}}</span>
+      {% endif %}</span></li>
+	{% endfor %}
+	<hr>
+
+		<h1>Добавить или изменить поле</h1>
+        <form action="" method="post">
+            <p><input type=text name=field_name id=id_param style="width: 80%;">
+            <p><input type=text name=field_value id=id_value style="width: 80%;">
+            <p><input type=submit value=Ok style="width: 80%;">
+        </form>
+
+{% endblock %}
+
+

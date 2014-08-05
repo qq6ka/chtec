@@ -1,0 +1,21 @@
+{% load date_from_ts %}
+{% load get_parent_by_tagname %}
+{% load staticfiles %}
+{% load get_hash %}
+
+{% if tags_status %}
+	<table class="main_ka" style="border-collapse: collapse;" cellpadding="2" cellspacing="0" width="100%"><tr>
+		{% for key, value in tags_status.items %}
+			<td>
+				<span class="date">{{ value.time|ts2date|date:"d.m.Y в H:i:s" }}</span><br>
+				<span class="for_err">{{ value.tag_id|get_parent }} | {{ value.short_name }}:
+				{% with mhash=value.state|redis_hash %}
+					{{ mhash.e_type }}
+				{% endwith %}</span>
+			</td>
+		    {% if forloop.counter|divisibleby:"2" %}
+		        </tr><tr>
+			{% endif %}
+		{% endfor %}
+	</tr></table>
+{% endif %}

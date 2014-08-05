@@ -1,0 +1,34 @@
+{% extends "base.html" %} 
+{% load date_from_ts %}
+{% load get_id %}
+
+{% block mainblock %}
+
+<h1>{{ group.name }}</h1>
+
+<script>
+	$(function(){
+		$( "#sortable" ).sortable({
+			cursor:"move",
+			stop: function(event, ui) {
+				var request ="";
+				$('li').each(function(index){
+					request = request + $(this).attr("id") + ":" + index + ",";
+					// console.log(request);
+				});
+				$.ajax({
+					url:'/sorted/?group={{ group|mongo_id }}&order='+request
+				});				
+			}
+		});
+	});
+</script>
+
+<ul id="sortable">
+    {% for tag in tags %}
+    <li id="{{ tag|mongo_id }}"><span id="off">
+    	<a href="?del={{ tag|mongo_id }}">(x)</a> {{ tag.name }} ({{ tag.short_name }})
+    </span></li>
+    {% endfor %}
+</ul><br>
+{% endblock %}

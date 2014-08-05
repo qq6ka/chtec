@@ -1,0 +1,1 @@
+from django import templateregister = template.Library()import syssys.path.append("/home/root2/mptt/readtags")from config_project import *@register.inclusion_tag('children.html')def children_tag(parent_id):	children=items.find({'parent':ObjectId(parent_id)}).sort('name',1)	return {'children': children}

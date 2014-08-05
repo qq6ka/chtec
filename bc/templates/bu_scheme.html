@@ -1,0 +1,56 @@
+{% load staticfiles %}
+<script src="{% static 'jquery-1.11.1.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+<EMBED id="svg" SRC="/static/boilern.svg" NAME="SVGEmbed" HEIGHT="98%" width="100%" TYPE="image/svg-xml" PLUGINSPAGE="http://www.adobe.com/svg/viewer/install/"></EMBED>
+<div id="links">
+<a href="/arms/52a0089c080b3705976914e4" target="blank">АРМ ТЦ 1</a> | 
+<a href="/arms/52a00917080b3705976914e5" target="blank">АРМ ТЦ 2</a> | 
+<a href="/arms/52a0092e080b376428282944" target="blank">АРМ ТЦ 3</a> | 
+<a href="/reports_curr/5382e379080b37431a92951f?show=1" target="blank">Цирквода</a> | 
+<a href="/reports_curr/52e720c8080b3773eaf05f34?show=1" target="blank">Турбогенераторы</a> | 
+<a href="/reports_curr/52e6f7ad080b370bdd18e518?show=1" target="blank">Бойлерные</a> | 
+<a href="/reports_curr/52e5ff29080b377b089fdb61?show=1" target="blank">Котлоагрегаты</a> | 
+<a href="/arms/52b26664080b37648809ef8d" target="blank">Химцех</a> | 
+<a href="/arms/" target="blank">Все рабочие места</a> | 
+</div>
+<script type="text/javascript">
+$(window).load(function(){
+      var SVG = document.getElementById("svg").getSVGDocument();
+
+      function get_data_ok(data) {
+            $.each(data, function(key,val) {
+                  $(SVG.getElementById(key)).css({'font-size':10});
+                  if (val == "Error"){
+                        $(SVG.getElementById(key)).attr("class", "alarm");
+                  } else{
+                        $(SVG.getElementById(key)).empty().append(val);
+                        $(SVG.getElementById(key)).attr("class", "st7");                        
+                  }
+
+            });
+            setTimeout(load_data, 4000);
+      }
+      
+      function get_data_fail() {
+            tags=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,]
+            $.each(tags, function(key) {
+                  $(SVG.getElementById(key)).attr("class", "alarm");
+            });
+            setTimeout(load_data, 4000);
+      }
+
+      function load_data(){
+            $.getJSON("/get_tag_by_shortname/")
+            .done(function(json) {
+                  get_data_ok(json);
+            })
+            .fail(function(json) {
+                  get_data_fail();
+            });
+      }
+
+      load_data();
+      
+});
+</script>
+

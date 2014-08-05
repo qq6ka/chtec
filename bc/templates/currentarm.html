@@ -1,0 +1,37 @@
+{% extends "base4arms.html" %} 
+{% load date_from_ts %}
+{% load get_id %}
+
+{% block mainblock %}
+
+<h1>{{ current_arm.name }}</h1>
+
+
+
+
+
+
+
+<script type="text/javascript">
+$(function () {
+  setInterval(function () {
+    $('#load_this').load('/mydata/?armid={{ current_arm|mongo_id }}&groups={% for group in current_arm.groups %}{{ group }},{% endfor %}');
+  }, 4000);
+});
+</script>
+
+<script type="text/javascript">
+$(function () {
+  setInterval(function () {
+		location.reload(true);
+  }, 600000);
+});
+
+</script>
+
+
+<table width="100%" class="main">
+    <tr valign="top"><td id="container"><div id="load_this"></div></td></tr>
+</table>
+
+{% endblock %}

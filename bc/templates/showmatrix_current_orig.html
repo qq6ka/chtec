@@ -1,0 +1,37 @@
+{% extends "base4arms.html" %} 
+{% load date_from_ts %}
+{% load staticfiles %}
+{% load get_parent_by_tagname %}
+{% load get_hash %}
+{% load get_id %}
+
+{% block mainblock %}
+    <table width="100%" class="main_ka" cellpadding="5">
+	{% for m in matrix %}
+        <tr>
+        {% for value in m %}
+            
+                {% if value.status %}
+                    <td bgcolor="#ededcb">
+                        {% if value.status == '0'  %}
+                                <a href="/currenttag/?tag={{ value.tagname }}" id=normal class="tooltip">{% if value.value == 'Error' %}{{ value.value }}{% else %}{{ value.value|floatformat:2 }}{% endif %}<span class="comment"><img class="callout" src="{% static 'callout.gif' %}">{{ value.tagname|get_parent }}<hr>{{ value.name }}<hr>Опрошен: {{ value.time|ts2date|date:"d.m.Y в H:i:s" }}</span></a>
+                        {% elif value.status == '1' %}
+                                <a href="/currenttag/?tag={{ value.tagname }}" id=attention class="tooltip">{% if value.value == 'Error' %}{{ value.value }}{% else %}{{ value.value|floatformat:2 }}{% endif %}<span class="comment"><img class="callout" src="{% static 'callout.gif' %}">{{ value.tagname|get_parent }}<hr>{{ value.name }}<hr>Состояние: {% with mhash=value.state|redis_hash %}{% for key, value in mhash.items %}{{ key }}: {{ value }}, {% endfor %}{% endwith %}<hr>Опрошен: {{ value.time|ts2date|date:"d.m.Y в H:i:s" }}</span></a>
+                        {% else %}
+                                <a href="/currenttag/?tag={{ value.tagname }}" id=panic class="tooltip">{% if value.value == 'Error' %}{{ value.value }}{% else %}{{ value.value|floatformat:2 }}{% endif %}<span class="comment"><img class="callout" src="{% static 'callout.gif' %}">{{ value.tagname|get_parent }}<hr>{{ value.name }}<hr>Состояние: {% with mhash=value.state|redis_hash %}{% for key, value in mhash.items %}{{ key }}: {{ value }}, {% endfor %}{% endwith %}<hr>Опрошен: {{ value.time|ts2date|date:"d.m.Y в H:i:s" }}</span></a>
+                        {% endif %}
+                    </td>
+                {% else %}
+                    {% if value %}
+                        <td class="green" width="10"><nobr>{{ value|safe }}</nobr></td>
+                    {% else %}
+                        <td>&nbsp;</td>
+                    {% endif %}
+                    
+                {% endif %}
+            
+        {% endfor %}
+       </tr>
+    {% endfor %}
+    </table>
+{% endblock %}

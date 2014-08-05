@@ -1,0 +1,10 @@
+
+    <form action='' method='post' class="formee">{% csrf_token %}
+	<label for="username">Логин:</label><br>
+    <input type="text" name="username" value="" id="username"><br><br>
+    <label for="password">Пароль:</label><br>
+    <input type="password" name="password" value="" id="password"><br><br>
+    <input type="submit" value="Войти" />
+	<input type="hidden" name="next" value="/" />
+    </form>
+

@@ -1,0 +1,110 @@
+{% extends "base4arms.html" %} 
+{% load date_from_ts %}
+{% load staticfiles %}
+{% load get_parent_by_tagname %}
+{% load get_hash %}
+{% load get_id %}
+
+{% block mainblock %}
+
+<script type="text/javascript">
+$(function () {
+  setInterval(function () {
+        location.reload(true);
+  }, 1200000);
+});
+
+</script>
+
+<script type="text/javascript">
+    $(window).load(function(){
+      
+        function get_data_ok(data) {
+            $.each(data, function(key,val) {
+                // Дата опроса тега
+                var date = new Date(val.time*1000);
+                var fdatetime = date.format('d.m.Y в G:i:s');
+                // Парсим состояние тега.
+                try {
+                    var state = jQuery.parseJSON(val.state);
+                } catch(e){
+                    // Иногда приходит пустой.
+                }
+                if (val.status == 0){
+                    var float_format = Number(val.value).toFixed(2);
+                    $("."+key).empty().append(
+                            '<a href="/drags/'+val.tag_id+'" id=normal class="tooltip">'+float_format+'<span class="comment"><img class="callout" src="/static/callout.gif">'+val.name+'<hr>Опрошен: '+fdatetime+'</span></a>'
+                        );
+                } else if (val.status == 1){
+                    var float_format = Number(val.value).toFixed(2);
+                    $("."+key).empty().append(
+                            '<a href="/drags/'+val.tag_id+'" id=attention class="tooltip">'+float_format+'<span class="comment"><img class="callout" src="/static/callout.gif">'+val.name+'<hr>'+state.e_type+': '+state.e_value+'<hr>Опрошен: '+fdatetime+'</span></a>'
+                        );
+                } else if (val.status == 2){
+                    var float_format = Number(val.value).toFixed(2);
+                    $("."+key).empty().append(
+                            '<a href="/drags/'+val.tag_id+'" id=panic class="tooltip">'+float_format+'<span class="comment"><img class="callout" src="/static/callout.gif">'+val.name+'<hr>'+state.e_type+': '+state.e_value+'<hr>Опрошен: '+fdatetime+'</span></a>'
+                        );
+                }
+            });
+            setTimeout(load_data, 4000);
+        }
+
+        function get_data_fail() {
+            setTimeout(load_data, 4000);
+        }
+
+        function load_data(){
+            $.getJSON("/current_values_for_report/?report={{ report|mongo_id }}")
+            .done(function(json) {
+                  get_data_ok(json);
+            })
+            .fail(function(json) {
+                  get_data_fail();
+            });
+        }
+
+        load_data();
+
+
+
+
+    $('td').mouseover(function () {
+        $(this).siblings().css('background-color', '#d0dca8');
+        var ind = $(this).index();
+        $('td:nth-child(' + (ind + 1) + ')').css('background-color', '#d0dca8');
+    });
+    $('td').mouseleave(function () {
+        $(this).siblings().css('background-color', '');
+        var ind = $(this).index();
+        $('td:nth-child(' + (ind + 1) + ')').css('background-color', '');
+    });
+
+
+
+
+
+    });
+</script>
+<h1>{{ report.report_name }} <span id=on><a href="/arms/">Рабочие места</a></span></h1>
+
+    <table class="main_ka" style="border-collapse: collapse;" cellpadding="5" cellspacing="0" width="100%">
+	{% for m in matrix %}
+        <tr>
+        {% for value in m %}
+                {% if value.status %}
+                    <td bgcolor="#ededcb" class="{{ value.tag_id }}" ></td>
+                {% else %}
+                    {% if value %}
+                        <td class="green"><nobr>{{ value|safe }}</nobr></td>
+                    {% else %}
+                        <td>&nbsp;</td>
+                    {% endif %}
+                    
+                {% endif %}
+            
+        {% endfor %}
+       </tr>
+    {% endfor %}
+    </table>
+{% endblock %}

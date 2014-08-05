@@ -1,0 +1,51 @@
+<!-- {% extends "base4arms.html" %}  -->
+{% load date_from_ts %}
+{% load get_id %}
+
+<!-- {% block mainblock %} -->
+<h1>{{ ka_name }}</h1>
+<table width="100%" class="main_ka" cellspacing="2">
+<tr>
+<td valign="top" width="33%" class="small">
+	{% for dv_name, dv_value in result_dv.items %}
+		{{ dv_name }}: {{ dv_value|floatformat:2 }}<br>
+	{% endfor %}
+</td>
+<td valign="top" width="33%" class="small">
+	{% for ds_name, ds_value in result_ds.items %}
+		{{ ds_name }}: {{ ds_value|floatformat:2 }}<br>
+	{% endfor %}
+</td>
+<td valign="top" width="33%" class="small">
+	{% for mmt_name, mmt_value in result_mmt.items %}
+		{{ mmt_name }}: {{ mmt_value|floatformat:2 }}<br>
+	{% endfor %}
+</td>
+</tr>
+<tr>
+<td valign="top" class="small">
+	Сумма час.: {{ sum_dv|floatformat:2 }} (Э: {{ sum_div_qpp.sum_dv|floatformat:2 }})
+</td>
+<td valign="top" class="small">
+	Сумма час.: {{ sum_ds|floatformat:2 }} (Э: {{ sum_div_qpp.sum_ds|floatformat:2 }})
+</td>
+<td valign="top" class="small">
+	Сумма час.: {{ sum_mmt|floatformat:2 }} (Э: {{ sum_div_qpp.sum_mmt|floatformat:2 }})
+</td>
+</tr>
+<tr>
+<td valign="top" class="small">
+С начала суток: {{ current_sum_dv|floatformat:2 }}
+</td>
+<td valign="top" class="small">
+С начала суток: {{ current_sum_ds|floatformat:2 }}
+</td>
+<td valign="top" class="small">
+С начала суток: {{ current_sum_mmt|floatformat:2 }}
+</td>
+</tr>
+
+<tr><td colspan="2" class="summ">Сумма сутки (Т+Д)*24: {{ day_dv_ds|floatformat:2 }} (Э: {{ sum_div_qpp.day_dv_ds|floatformat:2 }})</td><td class="summ">Сумма сутки П/П: {{ day_sum_mmt|floatformat:2 }} (Э: {{ sum_div_qpp.day_sum_mmt|floatformat:2 }})</td></tr>
+<tr><td colspan="3" class="summ_big">П/П + ТиД: {{ sum_day_mmt_ds_dv|floatformat:2 }} (Э: {{ sum_div_qpp.sum_day_mmt_ds_dv|floatformat:2 }})</td></tr>
+</table>
+<!-- {% endblock %} -->

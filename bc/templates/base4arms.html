@@ -1,0 +1,19 @@
+{% load staticfiles %}
+{% load get_id %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+<script src="{% static 'jquery-1.10.2.min.js' %}"></script>
+<script src="{% static 'date.format.js' %}"></script>
+<link rel="stylesheet" href="{% static 'hint.css-master/hint.css' %}">
+
+<style type="text/css">
+html, body{
+background-color:#F5F5DC;
+}
+</style>
+
+<body>
+<div class="main">
+{% block mainblock %}
+{% endblock %}
+</div>
+</body>

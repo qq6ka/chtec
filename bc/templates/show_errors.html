@@ -1,0 +1,24 @@
+{% extends "base4arms.html" %} 
+
+{% block mainblock %}
+<script type="text/javascript">
+$(function () {
+  setInterval(function () {
+    $('#load_this').load('/errors/');
+  }, 4000);
+});
+</script>
+
+<script type="text/javascript">
+$(function () {
+  setInterval(function () {
+		location.reload(true);
+  }, 600000);
+});
+
+</script>
+
+<h1>Отслеживание ошибок</h1>
+<div id="load_this"></div>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base4arms.html" %} 
+{% load get_id %}
+{% block mainblock %}
+         <h1>Вычитывание архивных данных по {{ device.name }}</h1>
+        <form action="" method="post">
+            <p><input type=text name=date placeholder="дд.мм.гггг">
+            <p><input type=submit value=Ok>
+        </form>
+        
+{% endblock %}

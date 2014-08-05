@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load get_id %}
+
+{% block mainblock %}
+        <h1>Добавление нового отчета</h1>
+		<form action="" method="post">
+        <table border="0" width="30%" class="main">
+            <tr><td>Название отчета</td><td><input type=text name=report_name></td></tr>
+            <tr><td>Кол-во строк</td><td><input type=text name=rows></td></tr>
+            <tr><td>Кол-во столбцов</td><td><input type=text name=columns></td></tr>
+            <tr><td>Тип отчета</td><td>
+                <select name="report_type">
+                <option value=0 selected>Архивы за сутки</option>
+                <option value=1>Текущие значения</option>
+                <option value=2>Суммирование по дням</option>
+                </select>
+            </td></tr>
+            <tr><td colspan=2><input type=submit value=Ok></td></tr>
+        </table>
+        </form>
+    <h1>Существующие отчеты</h1>
+    <table border="0" width="60%" class="main" cellpadding="5">
+    {% for report in all_reports %}
+        <tr {% if forloop.counter|divisibleby:"2" %}style="background-color: #d8dac5;"{% endif %}>
+        <td>
+            {{ forloop.counter }}
+        </td>
+        {% if request.user.is_superuser %}
+        <td>
+        <a href="?del={{ report|mongo_id }}">Удалить отчет</a>
+        </td>
+        {% endif %}
+        {% if report.current == 1 %}
+            <td>
+            <a href="/reports_curr/{{ report|mongo_id }}">{{ report.report_name }}</a>
+            </td>
+            <td>Текущие значения</td>
+            <td>
+            <a href="/reports_curr/{{ report|mongo_id }}?show=1">просмотр</a>
+            </td>
+        {% elif report.current == 0 %}
+            <td>
+            <a href="/reports/{{ report|mongo_id }}">{{ report.report_name }}</a>
+            </td>
+            <td>
+            Архивы за сутки</td>
+            <td>
+            <a href="/reports/{{ report|mongo_id }}?show=1">просмотр</a>
+            </td>
+        {% else %}
+            <td>
+            <a href="/reports_summ/{{ report|mongo_id }}">{{ report.report_name }}</a>
+            </td>
+            <td>
+            Суммирование по дням
+            </td>
+            <td>
+            <a href="/reports_summ/{{ report|mongo_id }}?show=1">просмотр</a>
+            </td>
+        {% endif %}
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}

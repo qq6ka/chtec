@@ -1,0 +1,10 @@
+{% extends "base4arms.html" %} 
+{% load get_id %}
+{% block mainblock %}
+         <h1>Запись тега в {{ device.name }}</h1>
+        <form action="" method="post">
+            <p>Канал: <input type=text name=channel></p> <p>Параметр: <input type=text name=parameter></p> <p>Значение: <input type=text name=value></p>
+            <p><input type=submit value=Ok></p>
+        </form>
+	Результат: {{ result }}
+{% endblock %}

@@ -1,0 +1,304 @@
+{% extends "base4arms.html" %}
+{% load date_from_ts %}
+{% load get_parent_by_tagname %}
+{% load staticfiles %}
+{% load get_hash %}
+
+{% block mainblock %}
+
+<b>{% now "d.m.Y H:i:s" %}</b><br><br>
+<table width="100%" class="main_ka">
+<tr>
+<td width="40%" align='center' {% ifequal lk_3a.value|floatformat:0 '1' %}class="green"{% else %}class="gray"{% endifequal %}>{% ifequal 3a_to_lk4a.value|floatformat:0 '1' %} 4А &larr;{% endifequal %}3А {% ifequal 3a_to_lk4b.value|floatformat:0 '1' %}&rarr; 4Б{% endifequal %}</td>
+<td width="40%" align='center' {% ifequal lk_3b.value|floatformat:0 '1' %}class="green"{% else %}class="gray"{% endifequal %}>{% ifequal 3b_to_lk4a.value|floatformat:0 '1' %}4А &larr;{% endifequal %} 3Б {% ifequal 3b_to_lk4b.value|floatformat:0 '1' %}&rarr; 4Б{% endifequal %}</td>
+<td width="20%" align='center' class="gray">ТИП УГЛЯ</td></tr>
+<tr>
+	<td {% ifequal lk_3a.value|floatformat:0 '1' %}class="green"{% else %}class="green_l"{% endifequal %}>
+		{{ v3a_33.short_name }}: <span class="big">{{ v3a_33.value|floatformat:3 }}</span><br>
+		{{ v3a_17.short_name }}: <span class="big">{{ v3a_17.value|floatformat:3 }}</span><br>
+		{{ v3a_23.short_name }}: <span class="big">{{ v3a_23.value|floatformat:3 }}</span><br><br>
+	</td>
+	<td {% ifequal lk_3b.value|floatformat:0 '1' %}class="green"{% else %}class="green_l"{% endifequal %}>
+		{{ v3b_33.short_name }}: <span class="big">{{ v3b_33.value|floatformat:3 }}</span><br>
+		{{ v3b_17.short_name }}: <span class="big">{{ v3b_17.value|floatformat:3 }}</span><br>
+		{{ v3b_23.short_name }}: <span class="big">{{ v3b_23.value|floatformat:3 }}</span><br><br>
+	</td>
+	<td class="green_l">
+		<form name="test" method="post" action="">
+			{% for type in type_coal %}
+				<input type="radio" name="type_coal" onclick="handleClick(this);" value="{{ type.environment }}" {% ifequal type.manual 1 %}checked{% endifequal %}>{{ type.name }}<Br>	
+			{% endfor %}
+		 </form>
+	</td>
+</tr>
+</table>
+<br><br>
+<table width="100%" class="main_ka"  cellpadding="2" cellspacing="0">
+    <tr valign="top" ><td colspan="13" align="center" {% ifequal lk_4a.value|floatformat:0 '1' %}class="green" {% else %} class="gray"{% endifequal %}>ЛК 4А</td></tr>
+    <tr valign="top"><td class="green_l" align="center">КА-1</td><td class="green_l" align="center">КА-2</td><td class="green_l" align="center">КА-3</td><td class="green_l" align="center">КА-4</td><td class="green_l" align="center">КА-5</td><td class="green_l" align="center">КА-6</td><td class="green_l" align="center">КА-7</td><td class="green_l" align="center">КА-8</td><td class="green_l" align="center">КА-9</td><td class="green_l" align="center">КА-10</td><td class="green_l" align="center">КА-11</td><td class="green_l" align="center">КА-12</td><td class="green_l" align="center">КА-13</td></tr>
+    <tr valign="top" class="plow">
+    <td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+    	{% for plow in ka1_4a %}
+			{% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+		{% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka2_4a %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka3_4a %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka4_4a %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka5_4a %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka6_4a %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka7_4a %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka8_4a %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka9_4a %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka10_4a %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka11_4a %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka12_4a %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka13_4a %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td></tr>
+    <tr><td colspan="13"><br></td></tr>
+    <tr valign="top"><td colspan="13" align="center" {% ifequal lk_4b.value|floatformat:0 '1' %}class="green" {% else %} class="gray"{% endifequal %}>ЛК 4Б</td></tr>
+    <tr valign="top"><td class="green_l" align="center">КА-1</td><td class="green_l" align="center">КА-2</td><td class="green_l" align="center">КА-3</td><td class="green_l" align="center">КА-4</td><td class="green_l" align="center">КА-5</td><td class="green_l" align="center">КА-6</td><td class="green_l" align="center">КА-7</td><td class="green_l" align="center">КА-8</td><td class="green_l" align="center">КА-9</td><td class="green_l" align="center">КА-10</td><td class="green_l" align="center">КА-11</td><td class="green_l" align="center">КА-12</td><td class="green_l" align="center">КА-13</td></tr>
+    <tr valign="top" class="plow">
+    <td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka1_4b %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka2_4b %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka3_4b %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka4_4b %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka5_4b %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka6_4b %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka7_4b %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka8_4b %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka9_4b %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka10_4b %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka11_4b %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka12_4b %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td><td class="green_l">
+        <table width="100%" class="green_digits" cellpadding="2" cellspacing="0"><tr align="center">
+        {% for plow in ka13_4b %}
+            {% ifequal plow.value|floatformat:0 '1' %}<td class="green">{{ plow.short_name }}</td>{% else %}<td>{{ plow.short_name }}</td>{% endifequal %}
+        {% endfor %}
+        </tr></table>
+    </td></tr>
+    <tr><td colspan="13"><br><br></td></tr>
+    <tr><td class="gray" colspan="13" align="center">Смена: {{ change_summ|floatformat:2 }}</td></tr>
+    <tr valign="top" class="plow">
+    <td class="green_digits">
+    	{{ ka1_change.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka2_change.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka3_change.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka4_change.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka5_change.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka6_change.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka7_change.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka8_change.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka9_change.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka10_change.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka11_change.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka12_change.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka13_change.value|floatformat:2 }}
+    </td></tr>
+    <tr><td class="gray" colspan="13" align="center">Сутки: {{ day_summ|floatformat:2 }}</td></tr>
+    <tr valign="top" class="plow">
+    <td class="green_digits">
+    	{{ ka1_day.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka2_day.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka3_day.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka4_day.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka5_day.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka6_day.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka7_day.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka8_day.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka9_day.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka10_day.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka11_day.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka12_day.value|floatformat:2 }}
+    </td><td class="green_digits">
+    	{{ ka13_day.value|floatformat:2 }}
+    </td></tr>
+    <tr valign="top"><td class="gray" align="center">КА-1</td><td class="gray" align="center">КА-2</td><td class="gray" align="center">КА-3</td><td class="gray" align="center">КА-4</td><td class="gray" align="center">КА-5</td><td class="gray" align="center">КА-6</td><td class="gray" align="center">КА-7</td><td class="gray" align="center">КА-8</td><td class="gray" align="center">КА-9</td><td class="gray" align="center">КА-10</td><td class="gray" align="center">КА-11</td><td class="gray" align="center">КА-12</td><td class="gray" align="center">КА-13</td></tr>
+</table>
+<br><br>
+<table width="100%" class="main_ka">
+<tr><td align='center' class="gray" colspan=2>РАСХОД ПИТЬЕВОЙ ВОДЫ</td><td align='center' class="gray">АКТИВНАЯ МОЩНОСТЬ</td></tr>
+<tr>
+<td align='center' class="big">Западный ввод: 
+    {% if q_pv_west.status == '0'  %}
+            <a href="/drags/{{ q_pv_west.tag_id }}" id=normal class="tooltip">{% if q_pv_west.value == 'Error' %}{{ q_pv_west.value }}{% else %}{{ q_pv_west.value|floatformat:2 }}{% endif %}<span class="comment"><img class="callout" src="{% static 'callout.gif' %}">{{ q_pv_west.tag_id|get_parent }}<hr>{{ q_pv_west.name }}<hr>Опрошен: {{ q_pv_west.time|ts2date|date:"d.m.Y в H:i:s" }}</span></a>
+    {% elif q_pv_west.status == '1' %}
+            <a href="/drags/{{ q_pv_west.tag_id }}" id=attention class="tooltip">{% if q_pv_west.value == 'Error' %}{{ q_pv_west.value }}{% else %}{{ q_pv_west.value|floatformat:2 }}{% endif %}<span class="comment"><img class="callout" src="{% static 'callout.gif' %}">{{ q_pv_west.tag_id|get_parent }}<hr>{{ q_pv_west.name }}<hr>Состояние: {% with mhash=q_pv_west.state|redis_hash %}{{ mhash.e_type }}: {{ mhash.e_value }}{% endwith %}<hr>Опрошен: {{ q_pv_west.time|ts2date|date:"d.m.Y в H:i:s" }}</span></a>
+    {% else %}
+            <a href="/drags/{{ q_pv_west.tag_id }}" id=panic class="tooltip">{% if q_pv_west.value == 'Error' %}{{ q_pv_west.value }}{% else %}{{ q_pv_west.value|floatformat:2 }}{% endif %}<span class="comment"><img class="callout" src="{% static 'callout.gif' %}">{{ q_pv_west.tag_id|get_parent }}<hr>{{ q_pv_west.name }}<hr>Состояние: {% with mhash=q_pv_west.state|redis_hash %}{{ mhash.e_type }}: {{ mhash.e_value }}{% endwith %}<hr>Опрошен: {{ q_pv_west.time|ts2date|date:"d.m.Y в H:i:s" }}</span></a>
+    {% endif %}
+</td>
+<td align='center' class="big">Восточный ввод: 
+    {% if q_pv_east.status == '0'  %}
+            <a href="/drags/{{ q_pv_east.tag_id }}" id=normal class="tooltip">{% if q_pv_east.value == 'Error' %}{{ q_pv_east.value }}{% else %}{{ q_pv_east.value|floatformat:2 }}{% endif %}<span class="comment"><img class="callout" src="{% static 'callout.gif' %}">{{ q_pv_east.tag_id|get_parent }}<hr>{{ q_pv_east.name }}<hr>Опрошен: {{ q_pv_east.time|ts2date|date:"d.m.Y в H:i:s" }}</span></a>
+    {% elif q_pv_east.status == '1' %}
+            <a href="/drags/{{ q_pv_east.tag_id }}" id=attention class="tooltip">{% if q_pv_east.value == 'Error' %}{{ q_pv_east.value }}{% else %}{{ q_pv_east.value|floatformat:2 }}{% endif %}<span class="comment"><img class="callout" src="{% static 'callout.gif' %}">{{ q_pv_east.tag_id|get_parent }}<hr>{{ q_pv_east.name }}<hr>Состояние: {% with mhash=q_pv_east.state|redis_hash %}{{ mhash.e_type }}: {{ mhash.e_value }}{% endwith %}<hr>Опрошен: {{ q_pv_east.time|ts2date|date:"d.m.Y в H:i:s" }}</span></a>
+    {% else %}
+            <a href="/drags/{{ q_pv_east.tag_id }}" id=panic class="tooltip">{% if q_pv_east.value == 'Error' %}{{ q_pv_east.value }}{% else %}{{ q_pv_east.value|floatformat:2 }}{% endif %}<span class="comment"><img class="callout" src="{% static 'callout.gif' %}">{{ q_pv_east.tag_id|get_parent }}<hr>{{ q_pv_east.name }}<hr>Состояние: {% with mhash=q_pv_east.state|redis_hash %}{{ mhash.e_type }}: {{ mhash.e_value }}{% endwith %}<hr>Опрошен: {{ q_pv_east.time|ts2date|date:"d.m.Y в H:i:s" }}</span></a>
+    {% endif %}
+</td>
+<td align='center' class="big">{% if sum_pow %}{{ sum_pow.value|floatformat:2 }}{% else %}-{% endif %}</td>
+</tr>
+</table>
+
+
+                
+
+
+
+<script>
+function handleClick(type_coal) {
+    // alert('New value: ' + type_coal.value);
+    $.ajax({
+      url: '/ttc/'+type_coal.value
+      });
+}
+
+</script>
+
+{% endblock %}

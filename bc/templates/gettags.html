@@ -1,0 +1,41 @@
+{% extends "base.html" %} 
+
+{% block mainblock %}
+
+<script type="text/javascript">
+window.setInterval(function(){
+	$(document).ready(function(){
+{#        //Чекбоксы#}
+{#     var allVals = [];#}
+{#     $(':checkbox:checked').each(function() {#}
+{#       allVals.push($(this).val());#}
+{#     });#}
+
+		//Получаем значения приборов
+		//$('#load_tags').load('/mydata/?tags=0GDH01BB001CL001,0GDH01AT001CP001,0GDH01AT001CF001,0GDH01AT001CT001,0GDH01AH001CT001,0GDH01AH002CT001,0GDH01AH002CL001,0GDH01AT002CP001,0GDH01BB001CQ001,0GDH01AT002CL001,0GDH01AT001CL001,0GDH01AT002CF001,test_tag_av1,ADA11EF003ZQ_V,MKA10GE004ZQ_V,MKA10GE003ZQ_V');
+		$('#load_groups').load('/mydata/?groups='+allVals);
+        $('#load_this').load('/mydata/?groups=ta-1,ta-2,ta-3,ta-5,ta-4,ta-6');
+
+{#        $('#block3').load('/mydata/?tags=0GDH01BB001CL001,0GDH01AT001CP001,0GDH01AT001CF001');#}
+
+
+	});
+}, 4000);
+</script>
+
+<table width="100%">
+    <tr valign="top"><td><div id="load_this"></div></td></tr>
+
+</table>
+{##}
+{##}
+{#    <form name="test" method="post">#}
+{#    {% for group in all_groups %}#}
+{#        <input type="checkbox" name="group_selector" value='{{ group.environment }}'> {{ group.description }}<br>#}
+{#    {% endfor %}#}
+{#    <br><br>#}
+{#    </form>#}
+{##}
+{#Выбор по группе#}
+{#<div id="load_groups"></div>#}
+{% endblock %}

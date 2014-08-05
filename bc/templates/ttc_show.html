@@ -1,0 +1,32 @@
+{% extends "base4arms.html" %} 
+
+{% block mainblock %}
+
+<h1>Система взвешивания топлива <span id=on><a target="blank" href="/reports/5328e935080b3768fb1f00e1?show=1">отчет</a>, <a target="blank" href="/reports/535f1c1d080b374ce83388ef?show=1">МСН</a></span></h1>
+
+
+<script type="text/javascript">
+$(function () {
+  setInterval(function () {
+    $('#load_this').load('/ttc/');
+  }, 4000);
+});
+</script>
+
+<script type="text/javascript">
+$(function () {
+  setInterval(function () {
+        location.reload(true);
+  }, 600000);
+});
+
+</script>
+
+
+<table width="100%" class="main">
+    <tr valign="top"><td id="container"><div id="load_this"></div></td></tr>
+</table>
+
+<a href="/kill/?path=/ttc_show/">Перезагрузить страницу</a>
+
+{% endblock %}

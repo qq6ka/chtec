@@ -1,0 +1,11 @@
+{% extends "base.html" %} 
+
+
+{% block mainblock %}
+{% for set in gs %}
+	{% for k,v in set.items %}
+		{{ k }} => {{ v }}<br>
+	{% endfor %}
+	<hr>
+{% endfor %}
+{% endblock %}

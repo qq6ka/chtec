@@ -1,0 +1,610 @@
+{% load get_id %}
+<html>
+ <head>
+ <meta charset="utf-8">
+ <style>
+  #col1 
+    {
+    left: 0; /* Положение элемента от правого края */
+    top: 20px; /* Положение от верхнего края */
+    width: 300px; /* Ширина блока */
+    background: #f0f0f0; /* Цвет фона */ 
+    }
+
+  #col2 
+    {
+    left: 200px; /* Положение элемента от правого края */
+    top: 20px; /* Положение от верхнего края */
+    width: 300px; /* Ширина блока */
+    background: #f0f0f0; /* Цвет фона */ 
+    text-align:center;
+    }
+
+  #centr 
+    {
+    text-align:left;
+    }
+
+  #col3 
+    {
+    left: 0; /* Положение элемента от правого края */
+    top: 20px; /* Положение от верхнего края */
+    width: 300px; /* Ширина блока */
+    background: #f0f0f0; /* Цвет фона */ 
+    }
+
+  </style>
+</head> 
+                                                       </html>
+<link rel="stylesheet" type="text/css" href="http://172.27.80.208:8000/static/jquery-ui.css" media="screen"/>
+<!--[if IE]><script type="text/javascript" src="http://172.27.80.208:8000/static/excanvas.js"></script><![endif]-->
+<script language="javascript" type="text/javascript" src="http://172.27.80.208:8000/static/admin/js/core.js"></script>
+<script language="javascript" type="text/javascript" src="http://172.27.80.208:8000/static/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="http://172.27.80.208:8000/static/jquery.jqplot.min.js"></script>
+<script language="javascript" type="text/javascript" src="http://172.27.80.208:8000/static/jqplot.categoryAxisRenderer.min.js"></script>
+<script language="javascript" type="text/javascript" src="http://172.27.80.208:8000/static/jqplot.highlighter.min.js"></script>
+<script language="javascript" type="text/javascript" src="http://172.27.80.208:8000/static/jqplot.cursor.min.js"></script>
+<script language="javascript" type="text/javascript" src="http://172.27.80.208:8000/static/jqplot.dateAxisRenderer.min.js"></script>
+<script language="javascript" type="text/javascript" src="http://172.27.80.208:8000/static/jqplot.dateAxisRenderer.js"></script>
+<script language="javascript" type="text/javascript" src="http://172.27.80.208:8000/static/jqplot.canvasAxisTickRenderer.min.js"></script>
+<script language="javascript" type="text/javascript" src="http://172.27.80.208:8000/static/jqplot.canvasTextRenderer.min.js"></script>
+<script language="javascript" type="text/javascript" src="http://172.27.80.208:8000/static/jqplot.canvasAxisLabelRenderer.min.js"></script>
+
+<script language="javascript" type="text/javascript" src="/admin/jsi18n/"></script>
+<script language="javascript" type="text/javascript" src="http://172.27.80.208:8000/static/calendar.js"></script>
+<script language="javascript" type="text/javascript" src="http://172.27.80.208:8000/static/DateTimeShortcuts.js"></script>
+
+<script language="javascript" type="text/javascript" src="http://172.27.80.208:8000/static/admin/js/core.js"></script>
+<script type="text/javascript" src="http://172.27.80.208:8000/static/admin/js/admin/RelatedObjectLookups.js"></script>
+
+<link rel="stylesheet" type="text/css" href="http://172.27.80.208:8000/static/jquery.jqplot.css" />
+<link rel="stylesheet" type="text/css" href="http://172.27.80.208:8000/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="http://172.27.80.208:8000/static/admin/css/forms.css" />
+<link rel="stylesheet" type="text/css" href="http://172.27.80.208:8000/static/admin/css/widgets.css" />
+
+
+<script language="javascript">
+    function getRadioValue()
+        {
+        for (i = 0; i < document.getElementsByName('discrete').length; i++)
+            {
+            if (document.getElementsByName('discrete')[i].checked)
+                {
+                return document.getElementsByName('discrete')[i].value
+                };
+            }
+        }
+
+// Дата в строку 
+// использование
+//  new Date().toLocaleFormat('%d.%m.%y %H:%M:%S')
+//  new Date().toLocaleFormat('%y-%m-%d %H:%M:%S')
+//    Date.prototype.toLocaleFormat = function(format)
+//        {
+//        var f = {y : this.getFullYear(),m : this.getMonth() + 1,d : this.getDate(),H : this.getHours(),M : this.getMinutes(),S : this.getSeconds()}
+//        for(var k in f)
+//        format = format.replace('%' + k, f[k] < 10 ? "0" + f[k] : f[k]);
+//        return format;
+//        };
+//    var idtimer;
+
+
+    plot2 = null;
+    out_array = {};
+    delta_time = 0;
+    labels = [];
+    minY = 0;
+    maxY = 0;
+    idtimer = 0;
+    count_reload = 0;
+//    var data_graph = {};
+
+
+
+function sortObj(obj) 
+    {
+    sortedKeys = new Array();
+    sortedObj = {};
+    for (var i in obj)
+        {
+         sortedKeys.push(i);
+        }
+    sortedKeys.sort();
+    for (var i in sortedKeys)
+        {
+        sortedObj[sortedKeys[i]] = obj[sortedKeys[i]];
+        }
+    return sortedObj;
+    }
+
+
+
+
+//  Функция подготовки графика ||
+    function build_graph()
+        {
+        dt_beg_temp = new Date();
+        dt_end_temp = new Date();
+        time_temp = "";
+//        labels = []
+        if (document.forms["graph_settings"].elements["autorefresh"].checked) // autorefresh ON
+            {
+            // Расчет временного диапазона
+            if ((document.forms["graph_settings"].elements["date_begin"].value != "") && 
+               (document.forms["graph_settings"].elements["time_begin"].value != ""))
+                {
+                if (delta_time > 0)
+                    {
+                    }
+                else
+                    {
+                    time_temp = document.forms["graph_settings"].elements["time_begin"].value.match(/(\d+)\:(\d+):(\d+)/)
+                    dt_beg_temp = new Date(document.forms["graph_settings"].elements["date_begin"].value.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'))
+                    dt_beg_temp.setHours(parseInt(time_temp[1], 10))
+                    dt_beg_temp.setMinutes(parseInt(time_temp[2], 10))
+                    dt_beg_temp.setSeconds(parseInt(time_temp[3], 10))
+                    dt_end_temp = new Date()
+                    delta_time = (dt_end_temp - dt_beg_temp)
+                    dt_beg_temp = new Date()
+                    dt_beg_temp.setTime(dt_beg_temp.getTime() - delta_time)
+                    for (index_tag=0; index_tag<document.forms["graph_settings"].elements["tags_select"].options.length;index_tag++)
+                        {
+                        out_array['begin_dates_'+document.forms["graph_settings"].elements["tags_select"].options[index_tag].value] = (dt_beg_temp.getTime()/1000).toFixed()
+                        out_array['end_dates_'+document.forms["graph_settings"].elements["tags_select"].options[index_tag].value] = ""
+                        };
+                    };
+                }
+            else
+                {
+                if (delta_time > 0)
+                    {
+                    }
+                else
+                    {
+                    delta_time = 900000
+                    dt_beg_temp = new Date()
+                    dt_beg_temp.setTime(dt_beg_temp.getTime() - delta_time)
+                    for (index_tag=0; index_tag<document.forms["graph_settings"].elements["tags_select"].options.length;index_tag++)
+                        {
+                        out_array['begin_dates_'+document.forms["graph_settings"].elements["tags_select"].options[index_tag].value] = (dt_beg_temp.getTime()/1000).toFixed()
+                        out_array['end_dates_'+document.forms["graph_settings"].elements["tags_select"].options[index_tag].value] = ""
+                        };
+                    };
+                };
+            }
+        else // autorefresh OFF
+            {
+            if ((document.forms["graph_settings"].elements["date_begin"].value != "") &&
+               (document.forms["graph_settings"].elements["time_begin"].value != ""))
+                {
+                time_temp = document.forms["graph_settings"].elements["time_begin"].value.match(/(\d+)\:(\d+):(\d+)/)
+                dt_beg_temp = new Date(document.forms["graph_settings"].elements["date_begin"].value.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'))
+                dt_beg_temp.setHours(parseInt(time_temp[1], 10))
+                dt_beg_temp.setMinutes(parseInt(time_temp[2], 10))
+                dt_beg_temp.setSeconds(parseInt(time_temp[3], 10))
+                }
+            else
+                {
+                dt_beg_temp.setTime(dt_beg_temp.getTime() - 900000)
+                };
+            if ((document.forms["graph_settings"].elements["date_end"].value != "") &&
+               (document.forms["graph_settings"].elements["time_end"].value != ""))
+                {
+                time_temp = document.forms["graph_settings"].elements["time_end"].value.match(/(\d+)\:(\d+):(\d+)/)
+                dt_end_temp = new Date(document.forms["graph_settings"].elements["date_end"].value.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'))
+                dt_end_temp.setHours(parseInt(time_temp[1], 10))
+                dt_end_temp.setMinutes(parseInt(time_temp[2], 10))
+                dt_end_temp.setSeconds(parseInt(time_temp[3], 10))
+                }
+            else
+                {
+                dt_end_temp = new Date()
+                };
+            delta_time = (dt_end_temp - dt_beg_temp)
+            for (index_tag=0; index_tag<document.forms["graph_settings"].elements["tags_select"].options.length;index_tag++)
+                {
+                out_array['begin_dates_'+document.forms["graph_settings"].elements["tags_select"].options[index_tag].value] = (dt_beg_temp.getTime()/1000).toFixed()
+                out_array['end_dates_'+document.forms["graph_settings"].elements["tags_select"].options[index_tag].value] = (dt_end_temp.getTime()/1000).toFixed()
+                };
+            };
+        out_array['graphs'] = document.forms["graph_settings"].elements["graphs"].value;
+        out_array['discrete'] = getRadioValue();
+        if (document.forms["graph_settings"].elements["gettable"].value=="true")
+            {
+            out_array['gettable'] = document.forms["graph_settings"].elements["gettable"].value;
+            var to_addr = "http://172.27.80.208:8000/graph/data?"
+            for (key in out_array)
+                {
+                to_addr = to_addr + key+"="+out_array[key] + "&"
+                }
+            window.location = to_addr;
+            out_array['gettable'] = false;
+            }
+        else
+            {
+//            var max_dt = 0;
+//            var num_tag = 0;
+//            var cnt_add = 0;
+//            var min_dt = 9388113019000;
+//            newdata = []
+//            if (typeof(plot2) == "undefined")
+//            alert(typeof(plot2));
+            if ((typeof(plot2) == "undefined") || (plot2 == null))
+                {
+//alert("one");
+                tag_array = [];
+                labels = [];
+                for (index_tag=0; index_tag<document.forms["graph_settings"].elements["tags_select"].options.length;index_tag++)
+                    {
+                    row_array = [];
+                    row_array.push([new Date(dt_beg_temp),0]);
+                    tag_array.push(row_array);
+                    labels.push({"label":document.forms["graph_settings"].elements["tags_select"].options[index_tag].text})
+                    }
+//alert("two");
+
+                dt_end_temp = new Date();
+                dt_beg_temp.setTime(dt_end_temp.getTime() - 900000);
+
+                plot2 = $.jqplot('chart2', tag_array,
+                    {
+                    seriesColors: [ "#000000", "#FF0000", "#800000", "#FFFF00", "#808000", "#00FF00","#008000", "#00FFFF", "#008080", "#0000FF", "#000080", "#FF00FF", "#800080", "#808080", "#DAA520"],
+                    seriesDefaults:{showMarker:false,lineWidth:1},
+                    grid:{background:'#FFFFFF'},
+                    title:document.forms["graph_settings"].elements["graphs"].options[document.forms["graph_settings"].elements["graphs"].selectedIndex].text,
+                    axes:{
+                        xaxis:{renderer:$.jqplot.DateAxisRenderer,min:dt_beg_temp,max:dt_end_temp,tickOptions: { formatString: '%y-%m-%d\n%H:%M:%S' }},
+                        yaxis: {min:0,max:100,tickOptions: { formatString: '%d',numberTicks:100,tickinterval:1}}
+                         },
+                    series: labels,
+                    legend:
+                        {
+                        rowSpacing: "0.5",
+                        show: true,
+                        location: "ne",
+                        xoffset: 0,
+                        yoffset: 0,
+                        placement:"outsideGrid",
+                        left:"0.5"
+                        }
+                    });
+//alert("three");
+//                    for (index_tag=0; index_tag<document.forms["graph_settings"].elements["tags_select"].options.length;index_tag++)
+//                        {
+//                        if (plot2.series[index_tag].data.length > 0) // & (plot2.series[index_tag].data[0][1]==0))
+//                            {
+//                            plot2.series[index_tag].data.splice(0,1);
+//                            }
+//                        }
+                }
+//alert("befor json");
+            $.getJSON("data",$.param(out_array,true),function(mydata)
+                {
+                count_reload = count_reload + 1;
+                cur_val = '';
+                $.each(mydata , function(i, n)  // копирование данных в plot2.data
+                    {
+                    if (i=="series")
+                         {
+                         for (index_tag=0; index_tag<document.forms["graph_settings"].elements["tags_select"].options.length;index_tag++)
+                             {
+                             cur_val = '';
+                             max_dt = 0;
+                             min_dt = 9388113019000;
+                             prv_time = 0;
+                             tempobj = sortObj(n[document.forms["graph_settings"].elements["tags_select"].options[index_tag].value]);
+                             for (one_row1 in tempobj)
+                                {
+                                if (max_dt<parseInt(one_row1,10))
+                                    {
+                                    max_dt = parseInt(one_row1,10);
+                                    }
+                                if (min_dt>parseInt(one_row1,10))
+                                    {
+                                    min_dt = parseInt(one_row1,10);
+                                    }
+                                if (maxY<parseFloat(tempobj[one_row1]))
+                                    {maxY = parseFloat(tempobj[one_row1])+parseFloat(tempobj[one_row1])*0.1;}
+                                if (minY>parseFloat(tempobj[one_row1]))
+                                    {minY = parseFloat(tempobj[one_row1])-parseFloat(tempobj[one_row1])*0.1;}
+                                if (prv_time>one_row1)
+                                    {
+                                    alert(prv_time);
+                                    }
+                                prv_time = one_row1;
+                                plot2.series[index_tag].data.push([(new Date(one_row1*1000)),tempobj[one_row1]]);
+                                cur_val = tempobj[one_row1];
+                                };
+                             plot2.legend._series[index_tag].label = document.forms["graph_settings"].elements["tags_select"].options[index_tag].text+" = "+(parseFloat(cur_val)).toFixed(2);
+                             if (out_array['begin_dates_'+document.forms["graph_settings"].elements["tags_select"].options[index_tag].value]<max_dt)
+                                 {
+                                 out_array['begin_dates_'+document.forms["graph_settings"].elements["tags_select"].options[index_tag].value] = max_dt;
+                                 }
+                             }
+                         }
+                    });
+//alert("befor_splice");
+                if (document.forms["graph_settings"].elements["autorefresh"].checked) // autorefresh ON
+                    {
+                    dt_clr = new Date()
+                    dt_clr.setTime(dt_clr.getTime() - delta_time)
+                    for (index_tag=0; index_tag<document.forms["graph_settings"].elements["tags_select"].options.length;index_tag++)
+                        {
+                        for (one_row in plot2.series[index_tag].data)
+                            {
+                            if (plot2.series[index_tag].data[one_row][0] < dt_clr)
+                                {
+                                plot2.series[index_tag].data.splice(one_row,1);
+                                }
+                            }
+                        }
+                    }
+                if (document.forms["graph_settings"].elements["minY"].value=="")
+                    {
+                    if (minY>parseFloat(mydata.options.min))
+                        {minY = parseFloat(mydata.options.min)*1.1;}
+                    }
+                else
+                    {
+                    minY = parseFloat(document.forms["graph_settings"].elements["minY"].value)
+                    };
+                if (document.forms["graph_settings"].elements["maxY"].value=="")
+                    {
+                    if (maxY<parseFloat(mydata.options.max))
+                        {maxY = parseFloat(mydata.options.max)*1.1;}
+                    }
+                else
+                    {
+                    maxY = parseFloat(document.forms["graph_settings"].elements["maxY"].value)
+                    };
+                if (document.forms["graph_settings"].elements["tickY"].value=="")
+                    {
+                    tickY=10;
+//                    var tickY=10;
+                    }
+                else
+                    {
+                    tickY = parseFloat(document.forms["graph_settings"].elements["tickY"].value)
+                    };
+                if (document.forms["graph_settings"].elements["autorefresh"].checked) 
+                    {
+                    maxX = new Date()
+                    maxX.setTime(maxX.getTime()+Math.round(delta_time*0.2))
+                    minX = new Date()
+                    minX.setTime(maxX.getTime()- delta_time)
+                    }
+                else
+                    {
+                    maxX = new Date(mydata.options.maxX*1000)
+                    maxX.setTime(maxX.getTime()+Math.round(delta_time*0.2))
+                    minX = new Date(mydata.options.minX*1000)
+                    };
+//alert("befor autoscale");
+                plot2.resetAxesScale();
+                plot2.axes.xaxis.max=maxX;
+                plot2.axes.xaxis.min=minX;
+
+                plot2.axes.xaxis._max=maxX.getTime();
+                plot2.axes.xaxis._min=minX.getTime();
+
+                plot2.axes.yaxis.max=maxY;
+                plot2.axes.yaxis.min=minY;
+                plot2.axes.yaxis.numberTicks=tickY;
+                plot2.axes.yaxis.tickInterval = (plot2.axes.yaxis.max-plot2.axes.yaxis.min)/tickY;
+                plot2.replot();
+//                alert("the end!");
+                if (document.forms["graph_settings"].elements["autorefresh"].checked==true) 
+                    {
+                    if (count_reload > 120)
+                        {
+                        count_reload = 0;
+                        drop_plot();
+                        }
+                    idtimer = window.setTimeout(build_graph, 5000);
+                    }
+                });
+            }
+
+        }
+
+    function start_graph()
+        {
+        document.forms["graph_settings"].elements["gettable"].value=false;
+        delta_time = 0;
+        minY = 0;
+        maxY = 0;
+//        if (typeof(plot2) != "undefined")
+        if (plot2 != null)
+            {
+            for (ser_id=0; ser_id<plot2.series.length;ser_id++)
+                {
+                plot2.series[ser_id].data = [];
+                }
+            plot2.destroy();
+            delete plot2;
+//            plot2;
+            }
+        build_graph();
+        }
+
+    function drop_plot()
+        {
+        clearTimeout(idtimer);
+        document.forms["graph_settings"].elements["action"].value="reload";
+        document.forms["graph_settings"].elements["autorefresh"].value="on";
+        document.forms["graph_settings"].submit();
+        }
+
+    window.onload=function()
+        {
+        if (document.forms["graph_settings"].elements["autorefresh"].checked)
+            {
+//            idtimer = window.setTimeout(build_graph, 5000);
+            build_graph();
+            }
+        };
+
+
+    function get_table()
+        {
+        document.forms["graph_settings"].elements["gettable"].value=true;
+        build_graph();
+        }
+
+   function change_group(val)
+    {
+    document.forms["graph_settings"].elements["groups"].value = val;
+    document.forms["graph_settings"].elements["action"].value = "change_group";
+    document.forms["graph_settings"].submit();
+    }
+   function change_graph(val)
+    {
+    document.forms["graph_settings"].elements["graphs"].value = val;
+    document.forms["graph_settings"].elements["action"].value = "change_graph";
+    document.forms["graph_settings"].submit();
+    }
+
+   function del_graph()
+    {
+    if (document.forms["graph_settings"].elements["graphs"].value != -1)
+        {
+//        var del_g = document.forms["graph_settings"].elements["graphs"];
+        del_g = document.forms["graph_settings"].elements["graphs"];
+        del = confirm("Вы действительно хотите удалить диаграмму ? - "+del_g.options[del_g.selectedIndex].label);
+//        var del = confirm("Вы действительно хотите удалить диаграмму ? - "+del_g.options[del_g.selectedIndex].label);
+        if(del == true)
+            {
+            document.forms["graph_settings"].elements["action"].value = "del_graph";
+            document.forms["graph_settings"].submit();
+            }
+        }
+    }
+
+   function add_tag()
+    {
+    document.forms["graph_settings"].elements["action"].value = "add_tag";
+    document.forms["graph_settings"].submit();
+    }
+
+   function del_tag()
+    {
+    document.forms["graph_settings"].elements["action"].value = "del_tag";
+    document.forms["graph_settings"].submit();
+    }
+
+   function save_graph()
+    {
+    document.forms["graph_settings"].elements["action"].value = "save_graph";
+    document.forms["graph_settings"].submit();
+    }
+
+   function reset_delta()
+    {
+    delta_time = 0;
+    }
+
+function winop(){
+windop=window.open("","mywin","width=768,height=1024");
+windop.document.open();
+windop.document.write("<html><head><title>.....Demo window.....</title>");
+windop.document.write("</head><body text='#ffffff'>");
+windop.document.write("<img id='imgChart2' alt='Red dot' src='' />");
+var img = windop.document.getElementById('imgChart2');
+var imgData = $('#chart2').jqplotToImageStr({}); // given the div id of your plot, get the img data
+img.src = imgData;
+windop.document.write("<center><font face=\"Arial,Verdana\" size=3 color=#ffffff><b>Демонстрационное<br> окно</b></font></center>");
+windop.document.write("<center><form><input type='button' value='Закрыть' onClick='window.close()'></form></center>")
+windop.document.write("</body></html>");
+windop.document.close();
+}
+
+ </script>
+<body>
+<form name="graph_settings" method="POST">{% csrf_token %}
+<input type="hidden" name="action">
+<table width="100%">
+  <tr >
+    <td width="100%">
+    <div id="chart2" style="width:1000px; height:500px;"></div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <table>
+        <td width="20%" id="col1">
+        <select id="col1" size="1" name="groups" onchange = "change_group(value);">
+          <option  value="-1">Выберите группу тегов</option>
+          {% for group in groups %}
+            {% if  sel_group == group|mongo_id %}
+            <option selected value={{ group|mongo_id }}>{{ group.name }}</option>
+            {% else %}
+            <option value={{ group|mongo_id }}>{{ group.name }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+
+        <p>Доступные теги :</p>
+        <select multiple id="col1" size="25" name="tags_enable" >
+        {% for tag_enable in tags_enable %}
+            <option value={{ tag_enable|mongo_id }}>{{ tag_enable.name }}</option>
+        {% endfor %}
+        </select>
+        </td>
+        <td id="col2">
+          <table id="col2">
+            <tr>
+              <td>
+              <input type="button" onclick="add_tag()" name="addtag" value="Добавить ===>"><br>
+              <input type="button"  onclick="del_tag();" name="removetag" value="<=== Убрать"><br>
+              </td>
+            </tr>
+            <tr>
+              <td id="centr">
+                <input type="radio" name="discrete" value="real" checked >Мгновенные</><br>
+                <input type="radio" name="discrete" value="hour">Часовые</><br>
+                <input type="radio" name="discrete" value="day">Суточные</><br>
+               <p style="text-align:center">От</><br>
+                <p>Дата  </><input type="text" name="date_begin" onchange="reset_delta()" class="vDateField">
+                <p>Время</><input type="text" name="time_begin" onchange="reset_delta()" class="vTimeField">
+               <p style="text-align:center">До</><br>
+                <p>Дата  </><input type="text" name="date_end" onchange="reset_delta()" class="vDateField">
+                <p>Время</><input type="text" name="time_end" onchange="reset_delta()" class="vTimeField"><br>
+                <input type="checkbox" name="autorefresh" {{ autorefresh }}> Автоматичексое обновление</><br>
+                <input type="text" name="maxY" value="">Максимум</>
+                <input type="text" name="tickY" value="">Промежутков</>
+                <input type="text" name="minY" value="">Минимум</><br>
+                <input type="hidden" name="gettable" value="false">
+                <p style="text-align:center"><input style="text-align:center" type="button" name="bugr" onclick="start_graph()" value="Построить"></>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td id="col3">
+        <select size="1" name="graphs" onchange = "change_graph(value);">
+        <option  value="-1">Выберите нужную диаграмму </option>
+          {% for graph in graphs %}
+            {% if sel_graph == graph|mongo_id %}
+            <option selected value={{ graph|mongo_id }}>{{ graph.name }}</option>
+            {% else %}
+            <option value={{ graph|mongo_id }}>{{ graph.name }}</option>
+            {% endif %}
+          {% endfor %}
+        <input type="button" onclick="del_graph()" value="Удалить">
+        <p>Теги текущей диаграммы :</p> 
+        <select multiple id="middle" size="25" name="tags_select">
+        {% for tag_select in tags_select %}
+            <option value={{ tag_select|mongo_id }}>{{ tag_select.name }}</option>
+        {% endfor %}
+        </select><br>
+        <input type="text" name="graph_name" value="Введите имя новой диаграммы"/>
+        <input id="middle" type="button" name="savegraph" onclick="save_graph()" value="Создать диаграмму">
+        <input type="button" value="Сохранить картинку" onclick="winop();">
+        <input type="button" value="Сохранить таблицу" onclick="get_table();">
+        <input type="button" value="Удалить  график" onclick="drop_plot();">
+        </td>
+      </table>
+    </td>
+  </tr>
+</table>
+</form>
+</body>

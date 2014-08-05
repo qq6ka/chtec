@@ -1,0 +1,1 @@
+from django import templateimport datetimefrom datetime import datetimeregister = template.Library()def ts2date(value):	return datetime.fromtimestamp(float(value))		register.filter('ts2date', ts2date)

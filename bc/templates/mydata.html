@@ -1,0 +1,82 @@
+{% load date_from_ts %}
+{% load get_parent_by_tagname %}
+{% load staticfiles %}
+{% load get_hash %}
+
+
+<script type="text/javascript">
+	$( "#allert_ok" ).click(function() {
+	    $.ajax({
+	      url: '/checked_state/?tags={% for key, value in tags_status.items %}{{ key }},{% endfor %}'
+	    });
+	});
+</script>
+
+{% if tags_status and show_errors %}
+	<div id="allert">
+		{% for key, value in tags_status.items %}
+			{{ value.short_name }}: {% with mhash=value.state|redis_hash %}{{ mhash.e_type }},{{ mhash.e_value }}{% endwith %} | 
+		{% endfor %}
+		<br><br>
+		<div id="allert_ok" align="center">OK!</div>
+	</div>
+{% endif %}
+
+{% if groups_load_tags|length > 1 %}
+
+	<table border="0" width="100%" class="main" cellspacing="15"><tr>
+	{% for key, value in groups_load_tags.items %}
+	    <td colspan="2" valign="top" style="background-color: #e9e0d1;" width="33%">
+	    <table width="100%" class="main" border="0">
+	    <tr><td colspan="2"><h1>{{ key }}</h1></td></tr>
+	    {% for value in value.values %}
+	            <tr class="border_bottom" bgcolor="{{ value.bg_color }}"><td valign="top" width="100%">
+	            {% if value.status == '0'  %}
+	                    <a href="/drags/{{ value.tag_id }}" id=normal class="tooltip">{{ value.short_name }}<span class="comment"><img class="callout" src="{% static 'callout.gif' %}">{{ value.tag_id|get_parent }}<hr>{{ value.name }}<hr>Опрошен: {{ value.time|ts2date|date:"d.m.Y в H:i:s" }}</span></a>, {{ value.unit }}
+	            {% elif value.status == '1' %}
+	                    <a href="/drags/{{ value.tag_id }}" id=attention class="tooltip">{{ value.short_name }}<span class="comment"><img class="callout" src="{% static 'callout.gif' %}">{{ value.tag_id|get_parent }}<hr>{{ value.name }}<hr>Состояние: {% with mhash=value.state|redis_hash %}{{ mhash.e_type }}: {{ mhash.e_value }}{% endwith %}<hr>Опрошен: {{ value.time|ts2date|date:"d.m.Y в H:i:s" }}</span></a>, {{ value.unit }}
+	            {% else %}
+	                    <a href="/drags/{{ value.tag_id }}" id=panic class="tooltip">{{ value.short_name }}<span class="comment"><img class="callout" src="{% static 'callout.gif' %}">{{ value.tag_id|get_parent }}<hr>{{ value.name }}<hr>Состояние: {% with mhash=value.state|redis_hash %}{{ mhash.e_type }}: {{ mhash.e_value }}{% endwith %}<hr>Опрошен: {{ value.time|ts2date|date:"d.m.Y в H:i:s" }}</span></a>, {{ value.unit }}
+	            {% endif %}
+	            </td><td><span class="value">{% if value.value == 'Error' %}{{ value.value }}{% else %}{{ value.value|floatformat:2 }}{% endif %}</span></td></tr>
+	        <!-- <tr><td colspan="2"></td></tr> -->
+	    {% endfor %}
+	    </table>
+	    </td>
+	    {% if forloop.counter|divisibleby:"3" %}
+	        </tr><tr>
+	    {% endif %}
+	{% endfor %}
+	</table>
+
+{% else %}
+	<table border="0" width="100%" class="main" cellspacing="15"><tr>
+	{% for key, value in groups_load_tags.items %}
+	    <td colspan="2" valign="top" style="background-color: #e9e0d1;" width="33%">
+	    <table width="100%" class="main" border="0">
+	    <tr><td colspan="4"><h1>{{ key }}</h1></td></tr><tr>
+	    {% for value in value.values %}
+            <td valign="top">
+            {% if value.status == '0'  %}
+                    <a href="/drags/{{ value.tag_id }}" id=normal class="tooltip">{{ value.short_name }}<span class="comment"><img class="callout" src="{% static 'callout.gif' %}">{{ value.tag_id|get_parent }}<hr>{{ value.name }}<hr>Опрошен: {{ value.time|ts2date|date:"d.m.Y в H:i:s" }}</span></a>, {{ value.unit }}
+            {% elif value.status == '1' %}
+                    <a href="/drags/{{ value.tag_id }}" id=attention class="tooltip">{{ value.short_name }}<span class="comment"><img class="callout" src="{% static 'callout.gif' %}">{{ value.tag_id|get_parent }}<hr>{{ value.name }}<hr>Состояние: {% with mhash=value.state|redis_hash %}{{ mhash.e_type }}: {{ mhash.e_value }}{% endwith %}<hr>Опрошен: {{ value.time|ts2date|date:"d.m.Y в H:i:s" }}</span></a>, {{ value.unit }}
+            {% else %}
+                    <a href="/drags/{{ value.tag_id }}" id=panic class="tooltip">{{ value.short_name }}<span class="comment"><img class="callout" src="{% static 'callout.gif' %}">{{ value.tag_id|get_parent }}<hr>{{ value.name }}<hr>Состояние: {% with mhash=value.state|redis_hash %}{{ mhash.e_type }}: {{ mhash.e_value }}{% endwith %}<hr>Опрошен: {{ value.time|ts2date|date:"d.m.Y в H:i:s" }}</span></a>, {{ value.unit }}
+            {% endif %}
+            </td><td>{% if value.value == 'Error' %}{{ value.value }}{% else %}{{ value.value|floatformat:2 }}{% endif %}</td>
+
+		    {% if forloop.counter|divisibleby:"2" %}
+		        </tr>
+		        <tr><td colspan="2" width="50%"><hr></td><td colspan="2"><hr></td></tr>
+		        <tr>
+		    {% endif %}
+
+	    {% endfor %}
+	    </table>
+	    </td>
+
+	{% endfor %}
+	</table>
+
+{% endif %}

@@ -1,0 +1,32 @@
+{% extends "base4arms.html" %} 
+{% load date_from_ts %}
+{% load get_id %}
+
+{% block mainblock %}
+
+<h1>Котлоагрегаты</h1>
+
+
+<script type="text/javascript">
+$(function () {
+  setInterval(function () {
+    $('#load_this').load('/reports_curr/52e5ff29080b377b089fdb61?show=1&current=1');
+  }, 4000);
+});
+</script>
+
+<script type="text/javascript">
+$(function () {
+  setInterval(function () {
+		location.reload(true);
+  }, 600000);
+});
+
+</script>
+
+
+<table width="100%" class="main">
+    <tr valign="top"><td id="container"><div id="load_this"></div></td></tr>
+</table>
+
+{% endblock %}

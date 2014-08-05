@@ -1,0 +1,1 @@
+from django import templateregister = template.Library()import syssys.path.append("/home/root2/mptt/readtags")from config_project import *def GetRedisVal(shortname):	tag=items.find_one({"short_name":shortname.encode("utf-8")})	return r.hgetall(str(tag['_id']))		register.filter('GetRedisVal', GetRedisVal)
